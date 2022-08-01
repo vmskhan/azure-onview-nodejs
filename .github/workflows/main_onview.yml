@@ -21,8 +21,12 @@ jobs:
         with:
           node-version: '16.x'
 
-
-          
+      - name: npm install, build, and test
+        run: |
+          npm install
+          npm run build --if-present
+          npm run test --if-present
+      
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
         with:
@@ -48,5 +52,5 @@ jobs:
         with:
           app-name: 'onview'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_10CE82EE8A314D48B1A209BC31D4BD2A }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_B1954298A3D14D76A48C8788DA406388 }}
           package: .
