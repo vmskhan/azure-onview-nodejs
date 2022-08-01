@@ -5,11 +5,11 @@ const userRoutes=require('./routes/userRoutes');
 const { notFound, errorHandler } = require('./middlewares/errorMiddleware');
 const PORT = process.env.PORT || 3001;
 const dotenv=require("dotenv");
-//const connectDB=require("./config/db");
+const connectDB=require("./config/db");
 
 const app=express();
 dotenv.config();
-//connectDB();
+connectDB();
 app.use(express.json());
 
 
