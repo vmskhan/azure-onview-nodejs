@@ -6,8 +6,8 @@
   "scripts": {
     "start": "node server/index.js",
     "build": "cd client && npm install && npm run build",
-    "postbuild":"cd client && npm install && npm run build",
-    "postinstall":"cd client && npm install && npm run build",
+    
+    "postinstall": "cd client && npm install && npm run build",
     "test": "echo \"Error: no test specified\""
   },
   "engines": {
@@ -17,6 +17,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "applicationinsights": "^2.3.3",
     "axios": "^0.27.2",
     "bcryptjs": "^2.4.3",
     "concurrently": "^7.3.0",
