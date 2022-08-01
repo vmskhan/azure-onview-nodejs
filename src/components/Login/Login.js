@@ -15,11 +15,11 @@ const Login=() => (
         
                 <form className="mt-3" name="login" method="POST" action="/login">
                     <div className="form-group">
-                        <label for="email" className="mb-2 text-secondary">Email id</label>
+                        <label htmlFor="email" className="mb-2 text-secondary">Email id</label>
                         <input type="email"  name="username" placeholder="Email" className="form-control" />
                     </div>
                     <div className="form-group mt-4">
-                        <label for="password" className="mb-2 text-secondary">Password</label>
+                        <label htmlFor="password" className="mb-2 text-secondary">Password</label>
                         <input type="password" name="password" placeholder="Password" className="form-control" />
                     </div>
                     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
