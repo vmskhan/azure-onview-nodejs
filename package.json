@@ -6,7 +6,6 @@
   "scripts": {
     "start": "node server/index.js",
     "build": "cd client && npm install && npm run build",
-    
     "postinstall": "cd client && npm install && npm run build",
     "test": "echo \"Error: no test specified\""
   },
@@ -26,6 +25,7 @@
     "express-async-handler": "^1.2.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.5.0",
+    "morgan": "^1.10.0",
     "nodemon": "^2.0.19"
   }
 }

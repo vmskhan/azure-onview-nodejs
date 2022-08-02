@@ -1,6 +1,20 @@
 import "./admin.css";
+import {useNavigate} from "react-router-dom";
+import { useEffect, useState } from "react";
+
 const AdminHeader = () => {
-    return(
+    
+  const [logout,setLogout]=useState(false);
+  const navigate=useNavigate();
+  useEffect(()=>{
+    if(logout)
+    {
+    localStorage.removeItem("userInfo");
+    navigate("/");
+    }
+  },[logout])
+
+  return(
     <nav className="navbar navbar-expand-lg navbar-dark text-l bg-success  px-5">
         <div className="container-fluid">
           <a className="navbar-brand " href="#">
@@ -30,9 +44,9 @@ const AdminHeader = () => {
                 <a className="nav-link active" aria-current="page" href="/admin/history">Completed</a>
               </li>
             </ul>
-            <a href="/logout">
-                <button className="btn btn-outline-light btn-sm" type="submit">Logout</button>
-            </a>
+            
+                <button className="btn btn-outline-light btn-sm" onClick={() => setLogout(true)}>Logout</button>
+            
           </div>
         </div>
     </nav>

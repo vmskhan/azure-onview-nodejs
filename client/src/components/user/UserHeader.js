@@ -1,6 +1,21 @@
+import { useNavigate } from "react-router";
 import "./user.css";
+import { useState,useEffect } from "react";
+
 const UserHeader = () => {
-    return(
+  
+
+  const [logout,setLogout]=useState(false);
+  const navigate=useNavigate();
+  useEffect(()=>{
+    if(logout)
+    {
+    localStorage.removeItem("userInfo");
+    navigate("/");
+    }
+  },[logout])
+
+  return(
       
     <nav className="navbar navbar-expand-lg navbar-dark text-l bg-success  px-5">
         <div className="container-fluid">
@@ -28,9 +43,9 @@ const UserHeader = () => {
                 <a className="nav-link active" aria-current="page" href="/user/history">Completed</a>
               </li>
             </ul>
-            <a href="/logout">
-                <button className="btn btn-outline-light btn-sm" type="submit">Logout</button>
-            </a>
+            
+                <button className="btn btn-outline-light btn-sm" onClick={() => setLogout(true)}>Logout</button>
+            
           </div>
         </div>
     </nav>
