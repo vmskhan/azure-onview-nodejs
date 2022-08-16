@@ -9,7 +9,7 @@ const AdminQuestion = () => {
         <div className="px-5 mt-4">
           <nav aria-label="breadcrumb">
             <ol className="breadcrumb">
-              <li className="breadcrumb-item "><a href="/admin/dashboard" className="decor-none">Dashboard</a></li>
+              <li className="breadcrumb-item "><a href="/admin/adminDashboard" className="decor-none">Dashboard</a></li>
               <li className="breadcrumb-item active" aria-current="page">Interview</li>
             </ol>
           </nav>
