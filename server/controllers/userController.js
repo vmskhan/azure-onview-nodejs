@@ -67,7 +67,17 @@ const authUser =asyncHandler(async(req,res) => {
 });
 
 const findAllUsers= asyncHandler(async(req,res) => {
-    
+    const userList=await User.find({'isAdmin':false});
+    if(userList){
+        res.status(200).json({
+            'users':userList,
+        });
+    }
+    else
+    {
+        res.status(400);
+        throw new Error("NO users found");
+    }
 })
 
 module.exports={ registerUser , authUser, findAllUsers};

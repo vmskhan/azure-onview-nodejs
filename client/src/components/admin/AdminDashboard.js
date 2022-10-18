@@ -1,7 +1,7 @@
 import AdminHeader from "./AdminHeader";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import TestComp from "../test/testComp";
+import TestComp from "../test/TestComp";
 import Loading from "../Login/Loading";
 
 
@@ -58,7 +58,7 @@ const [userList,setUserList]=useState([]);
     setLoading(true);
     //fetch participants
     fetch('/api/users/getAllUsers').then((res)=>res.json())
-    .then((data)=>setUserList(data))
+    .then((data)=>setUserList(data.users))
     
     //fetch tests
     fetch('/api/admin/tests',{
