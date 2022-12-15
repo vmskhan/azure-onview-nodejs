@@ -2,9 +2,7 @@ const mongoose=require('mongoose');
 
 const questionSchema = mongoose.Schema(
     {
-        _id: {
-            type:mongoose.SchemaTypes.ObjectId,
-        },
+       
         questionText:{
             type: String,
             required: true,
@@ -13,6 +11,11 @@ const questionSchema = mongoose.Schema(
             type:String,
             required: true,
             default: "",
+        },
+        options:{
+            type:Array,
+            required:false,
+            default:[]
         },
         answerText:{
             type: String,
@@ -23,7 +26,7 @@ const questionSchema = mongoose.Schema(
             required: true,
             default: "",
         },
-        mark:{
+        marks:{
             type: Number,
             required: true,
         },

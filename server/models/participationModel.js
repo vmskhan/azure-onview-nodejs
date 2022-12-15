@@ -2,9 +2,7 @@ const mongoose=require('mongoose');
 
 const participationSchema = mongoose.Schema(
     {
-        _id: {
-            type:mongoose.SchemaTypes.ObjectId,
-        },
+       
         tid:{
             type:mongoose.SchemaTypes.ObjectId, 
             required: true,

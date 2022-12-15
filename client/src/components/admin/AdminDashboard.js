@@ -32,16 +32,16 @@ const [userList,setUserList]=useState([]);
         },  
     };
     setUid(user._id);
-    setPid(user._id);
+    // setPid(user._id);
     setTotalMarks(0);
-    setState('start');
+    setState('edit');
     if(amount>0)
     {
       setNeedPayment(true);
     }
 
     const {data} = await axios.post(
-      "/api/admin/createTest",
+      "/api/admin/test",
       {tname,amount,date,duration,needPayment,start_time,state,totalMarks,pid,uid},
       config
   );
@@ -61,24 +61,19 @@ const [userList,setUserList]=useState([]);
     .then((data)=>setUserList(data.users))
     
     //fetch tests
-    fetch('/api/admin/tests',{
+    fetch('/api/admin/tests/'+user._id,{
      
     // Adding method type
-    method: "POST",
-     
-    // Adding body or contents to send
-    body: JSON.stringify({
-        'uid':user._id,
-    }),
-     
+    method: "GET",
+         
     // Adding headers to the request
     headers: {
         "Content-type": "application/json; charset=UTF-8"
     }
 }).then((res) => res.json())
   .then((data)=> {
-     setTests(data.tests);
-     console.log(data.tests);
+     setTests(data.resData);
+     console.log(data.resData);
     // console.log(tests);
     setLoading(false);
   })
@@ -130,8 +125,9 @@ const [userList,setUserList]=useState([]);
       <>
         
           {
-          tests.map((test)=>{
-          return <TestComp testobj={test} />     
+          tests.map((test,index)=>{
+            if(test.state==='start' || test.state==='edit')
+          return <TestComp testobj={test} index={index} titleUrl={"/admin/adminQuestion"} />     
          })} 
       </>
       }

@@ -37,10 +37,10 @@ const UserHeader = () => {
             <div className="me-auto"></div>
             <ul className="navbar-nav mb-2 mb-lg-0 px-4">
               <li className="nav-item">
-                <a className="nav-link active" aria-current="page" href="/user/dashboard">Dashboard</a>
+                <a className="nav-link active" aria-current="page" href="/user/userDashboard">Dashboard</a>
               </li>
               <li className="nav-item">
-                <a className="nav-link active" aria-current="page" href="/user/history">Completed</a>
+                <a className="nav-link active" aria-current="page" href="/user/userHistory">Completed</a>
               </li>
             </ul>
             

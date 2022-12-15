@@ -4,12 +4,14 @@ const TestComp= (props) => {
     useEffect(()=>{
         console.log(props.testobj);
     },[])
-    
+  const handleClickTest=()=>{
+      localStorage.setItem('currentTest',props.testobj._id);
+  }    
     return(
-        <div className="col-4 mt-4">
+        <div className="col-4 mt-4" key={props.index}>
             <div className="shadow">
               <div className="card-header text-img text-d" style={{height: '120px'}}>
-               <a href="/admin/adminQuestion" className="decor-none">
+               <a href={props.titleUrl} onClick={handleClickTest} className="decor-none">
                   <h4>{props.testobj.tname}</h4> 
                </a>
               </div>

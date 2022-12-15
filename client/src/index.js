@@ -15,7 +15,7 @@ import AdminHistory from "./components/admin/AdminHistory";
 import AdminEvaluation from "./components/admin/adminEvaluation";
 import AdminEvaluateAnswer from "./components/admin/adminEvaluateAnswer";
 import AdminMeet from "./components/admin/AdminMeet";
-import AdminQuestion from "./components/admin/AdminQuestion";
+
 import AdminResult from "./components/admin/AdminResult";
 import UserDashBoard from "./components/user/UserDashboard";
 import UserHistory from "./components/user/UserHistory";
@@ -23,11 +23,14 @@ import UserResult from "./components/user/UserResult";
 import UserPayment from "./components/user/userPayment";
 import StartTest from "./components/user/StartTest";
 import TestPage from "./components/user/TestPage";
+import NewLogin from "./components/Login/NewLogin";
+import AdminQuestion from "./components/QuestionComp/AdminQuestion";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(<BrowserRouter>
 <Routes>
   <Route path = "/" element = {<App/>} exact />
+  <Route path = "/new" element = {<NewLogin/>} exact />
   <Route path ="/registerUser" element={<RegisterUser/>} exact/>
   <Route path ="/registerAdmin" element={<RegisterAdmin/>} exact/>
   <Route path ="/admin/adminDashboard" element={<AdminDashboard/>} exact/>

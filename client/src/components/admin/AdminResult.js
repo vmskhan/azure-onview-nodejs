@@ -10,8 +10,8 @@ const AdminResult = () => {
       <div className="px-5 mt-4">
         <nav aria-label="breadcrumb">
           <ol className="breadcrumb">
-            <li className="breadcrumb-item text-primary"><a href="/admin/dashboard" className="decor-none"> Dashboard</a></li>
-            <li className="breadcrumb-item active" aria-current="page"><a href="/admin/history" className="decor-none">Back</a></li>
+            <li className="breadcrumb-item text-primary"><a href="/admin/adminHistory" className="decor-none"> Completed</a></li>
+            <li className="breadcrumb-item active" aria-current="page"><a href="/admin/adminHistory" className="decor-none">Back</a></li>
           </ol>
         </nav>
       </div>

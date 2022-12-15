@@ -56,9 +56,12 @@ const Login=() => {
     };
 
     return(
-<div className="d-flex flex-fill">
-        <div className="d-flex auth-bg-left-img border-end border-5 border-success  align-items-center justify-content-center w-50 ">
-            <div className="shadow rounded bg-white border border-success border-2 px-5 py-3 w-75">
+        <div className="container-fluid">
+<div className="row vh-100">
+        <div className="col-6 auth-bg-left-img border-end border-5 border-success">
+            <div className="container-fluid">
+            <div className="row justify-content-center vh-100">
+            <div className="col-9 align-self-center shadow rounded bg-white border border-success border-2 px-5 py-3">
                 
                 <div className="h3 mt-4 text-success text-center"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-person-workspace" viewBox="0 0 16 16">
                     <path d="M4 16s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H4Zm4-5.95a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z"/>
@@ -95,20 +98,27 @@ const Login=() => {
                     {loading && <Loading/>}
                 </form>
             </div>
-
+            </div>
             
             
         </div>
-        <div className="d-flex flex-wrap justify-content-center text-center border-start border-success border-5 w-50 flex-fill auth-bg-right-img">
-            <h2 className="text-dark  display-1"><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" className="bi bi-person-workspace" viewBox="0 0 16 16">
-                <path d="M4 16s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H4Zm4-5.95a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z"/>
-                <path d="M2 1a2 2 0 0 0-2 2v9.5A1.5 1.5 0 0 0 1.5 14h.653a5.373 5.373 0 0 1 1.066-2H1V3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v9h-2.219c.554.654.89 1.373 1.066 2h.653a1.5 1.5 0 0 0 1.5-1.5V3a2 2 0 0 0-2-2H2Z"/>
-              </svg> Onview</h2>
-            <p className="text-dark fw-bolder align-self-end mx-2">Onview is an Online Interview Platform designed to conduct interactive sessions between Interviewer and the Interviewee. It Provides various features to support a full fledged online assessment.
-                <br/><span className="text-secondary">&copy; Onview Pvt. Ltd.</span>
-            </p>
-        </div>    
         </div>
+        <div className="col-6 text-center border-start border-success border-5 auth-bg-right-img">
+            <div className="row justify-content-center">
+                <div className="col-9 d-flex flex-wrap vh-100 text-center">
+                    <h2 className="text-dark  flex-fill display-1"><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" className="bi bi-person-workspace" viewBox="0 0 16 16">
+                        <path d="M4 16s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H4Zm4-5.95a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z"/>
+                        <path d="M2 1a2 2 0 0 0-2 2v9.5A1.5 1.5 0 0 0 1.5 14h.653a5.373 5.373 0 0 1 1.066-2H1V3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v9h-2.219c.554.654.89 1.373 1.066 2h.653a1.5 1.5 0 0 0 1.5-1.5V3a2 2 0 0 0-2-2H2Z"/>
+                    </svg> Onview</h2>
+                    <p className="text-dark fw-bolder flex-fill align-self-end mx-2">Onview is an Online Interview Platform designed to conduct interactive sessions between Interviewer and the Interviewee. It Provides various features to support a full fledged online assessment.
+                        <br/><span className="text-secondary">&copy; Onview Pvt. Ltd.</span>
+                    </p>
+                </div> 
+            </div>
+        </div> 
+        </div>  
+    </div>
+    
     )
 }
 

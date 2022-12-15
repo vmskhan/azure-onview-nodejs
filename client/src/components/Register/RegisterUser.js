@@ -52,7 +52,7 @@ const RegisterUser=() => {
 
 
     return(
-    <div className="auth-bg-left-img d-flex flex-column">
+    <div className="auth-bg-left-img d-flex flex-column vh-100">
         <div className="d-flex align-items-center justify-content-around">
             <div className="shadow rounded bg-white px-5 py-3 w-50 mt-3">      
                 <div className="h3 mt-4 text-success text-center"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-person-workspace" viewBox="0 0 16 16">
@@ -64,7 +64,7 @@ const RegisterUser=() => {
                 </div>
                 {message && <ErrorMessage message={message}/>}
                 {error && <ErrorMessage message= {error} />}
-                <div className="h5 mt-4 text-success text-center">ADMIN Sign-Up </div>              
+                <div className="h5 mt-4 text-success text-center">USER Sign-Up </div>              
                 <form className="mt-3" onSubmit={(e) => submitHandler(e)}>
                     <div className="form-group">
                         <label htmlFor="email" className="mb-2 text-secondary">Email id</label>

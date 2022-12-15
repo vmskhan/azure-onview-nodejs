@@ -35,13 +35,13 @@ const AdminHeader = () => {
             <div className="me-auto"></div>
             <ul className="navbar-nav mb-2 mb-lg-0 px-4">
               <li className="nav-item">
-                <a className="nav-link active" aria-current="page" href="/admin/dashboard">Dashboard</a>
+                <a className="nav-link active" aria-current="page" href="/admin/adminDashboard">Dashboard</a>
               </li>
               <li className="nav-item">
-                <a className="nav-link active" aria-current="page" href="/admin/evaluation">Pending</a>
+                <a className="nav-link active" aria-current="page" href="/admin/adminEvaluation">Pending</a>
               </li>
               <li className="nav-item">
-                <a className="nav-link active" aria-current="page" href="/admin/history">Completed</a>
+                <a className="nav-link active" aria-current="page" href="/admin/adminHistory">Completed</a>
               </li>
             </ul>
             

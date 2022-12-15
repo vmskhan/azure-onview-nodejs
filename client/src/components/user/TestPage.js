@@ -1,30 +1,42 @@
+import { useEffect, useState } from "react";
+import TestHeader from "./TestHeader";
+import axios from "axios";
 import "./user.css";
+
 const TestPage =() =>{
+  const [questions,setQuestions]=useState([{options:{},questionFormat:'d'}]);
+  const [index,setIndex]=useState(0);
+  const testId=localStorage.getItem('currentTest');
   const offcanvasStyle={width: '250px', marginTop : '104px', overflow: 'hidden'};  
   const offcanvasBodyStyle={marginLeft: '25px', overflow: 'hidden'};
   const offcanvasBodyChildDivStyle={minHeight: '250px', maxHeight: '250px' , width: '100%', overflow: 'scroll', overflowX : 'hidden' ,paddingRight: '17px', boxSizing: 'content-box' }
+  
+  useEffect(()=>{
+    fetchQuestions();
+  },[]);
+  
+  const fetchQuestions=()=>{
+    axios.get('/api/admin/questions/'+testId,{
+      method: "GET",
+      // Adding headers to the request
+      headers: {
+          "Content-type": "application/json; charset=UTF-8"
+      }
+  }).then((res) => res.data)
+    .then((data)=> {
+       setQuestions(data.resData);
+       console.log(data.resData);
+    })
+  }
+const incrementIndex=(e)=>{
+  e.preventDefault();
+  setIndex(index+1);
+}
+
   return(
+    <>
         <div>
-    <nav className="navbar navbar-expand-lg navbar-dark text-l bg-success  px-5">
-        <div className="container-fluid">11
-          <a className="navbar-brand " href="#">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-person-workspace" viewBox="0 0 16 16">
-              <path d="M4 16s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H4Zm4-5.95a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z"/>
-              <path d="M2 1a2 2 0 0 0-2 2v9.5A1.5 1.5 0 0 0 1.5 14h.653a5.373 5.373 0 0 1 1.066-2H1V3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v9h-2.219c.554.654.89 1.373 1.066 2h.653a1.5 1.5 0 0 0 1.5-1.5V3a2 2 0 0 0-2-2H2Z"/>
-            </svg> Onview
-        </a>
-          <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span className="navbar-toggler-icon"></span>
-          </button>
-          <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            <div className="me-auto"></div>
-            {/* <!-- <a href="/user/test/${tid}/end">
-                <button className="btn btn-outline-light btn-sm" type="submit">End Test</button>
-            </a> --> */}
-          </div>
-        </div>
-        
-    </nav>
+          <TestHeader/>
     <div className="container-fluid">
         <div className="row mt-5 px-5">
           <div className="col-12">
@@ -40,17 +52,17 @@ const TestPage =() =>{
                 <div className="col-6">
                   <div className="">
                     <div className="d-flex justify-content-between">
-                       <div className="h5 text-b">Question{/* ${question.idx}*/}</div> 
-                      <p>Mark : <strong>{/*${question.mark}*/}</strong></p>
+                       <div className="h5 text-b">Question {questions[index].idx}</div> 
+                      <p>Mark : <strong>{questions[index].marks}</strong></p>
                     </div>
                     <div className="mt-2">
-                      <p>{/*${question.questionText}*/}</p>
+                      <p>{questions[index].questionText}</p>
                     </div>
                     
                     <div className="mt-2">
-                      {/* <c:if test="${question.questionImage!=null}">
+                      { questions[index].questionImage!=null &&
                       <img className="w-50" src="/img/qs${question.qid}.jpg"/>
-                    </c:if> */}
+                    }
                     </div>
                   
                   </div>
@@ -59,44 +71,44 @@ const TestPage =() =>{
                     <div className="d-flex justify-content-between">
                       <div className="h5 text-b">Options</div>
                     </div>
-                    {/* <c:if test="${question.questionFormat.equals('obj-a')}"> */}
-                      <form className="mt-2" method="POST" action="/user/test/placeholder/qn" /*${tid} */ >
-                        {/* <c:forEach items="${options}" var="option" varStatus="loop"> */}
-                          <div className="card px-2 py-2 mb-2 border-danger">
+                    {questions[index].questionFormat ==='obj-a' &&
+                      <form className="mt-2" >
+                        {/* action="/user/test/tid/qn"  */}
+                        {questions[index].options.map((option,index)=>{
+                          return(<div className="card px-2 py-2 mb-2 border-danger">
                             <div className="form-check">
-                              {/* <input className="form-check-input" type="radio"  id="${loop.index+1}" value="${option.answerText}" name="answerText" required /> */}
-                              {/* <label className="form-check-label mb-2" htmlFor="${loop.index+1}">${option.answerText}</label> */}
+                              <input className="form-check-input" type="radio"  id={index+1} value={option.text} name="answerText" required />
+                              <label className="form-check-label mb-2" htmlFor={index+1}>{option.text}</label>
                               <div className="w-100"></div>
-                              {/* <c:if test="${option.answerImage!=null}">
+                              {option.hasImage &&
                               <img className="w-50" src="/img/os${option.oid}.jpg"/>
-                            </c:if> */}
+                              }
                             </div>
-                          </div>
-                        {/* </c:forEach> */}
-                        <input type="submit" className="btn btn-primary btn-sm mt-5 px-5" label="Next" />
+                          </div>);
+                        })}
+                        <button  className="btn btn-primary btn-sm mt-5 px-5"  onClick={incrementIndex}>Next</button>
                       </form>
-                    {/* </c:if> */}
+                    }
 
-                    {/* <c:if test="${question.questionFormat.equals('obj-b')}"> */}
-                      <form className="mt-2" method="POST" action="/user/test/${tid}/qn" modelAttribute="opt">
-                        {/* <c:forEach items="${options}" var="option" varStatus="loop"> */}
-                          <div className="card px-2 py-2 mb-2">
+                    {questions[index].questionFormat === 'obj-b' &&
+                      <form className="mt-2" method="POST" action="/user/test/${tid}/qn" >
+                        {questions[index].options.map((option,index)=>{
+                          return(<div className="card px-2 py-2 mb-2">
                             <div className="form-check">
-                              {/* <input className="form-check-input" type="checkbox"  id="${loop.index+1}" value="${option.answerText}" name="answerText" /> */}
-                              {/* <label className="form-check-label mb-2" htmlFor="${loop.index+1}">${option.answerText}</label> */}
-                              {/* <c:if test="${option.answerImage!=null}"> */}
-                                
-                              {/* <img className="w-100" src="/img/os${option.oid}.jpg"/> */}
-                            {/* </c:if> */}
+                              <input className="form-check-input" type="checkbox"  id={index+1} value={option.text} name="answerText" />
+                              <label className="form-check-label mb-2" htmlFor={index+1}>{option.text}</label>
+                              {option.hasImage &&    
+                              <img className="w-100" src="/img/os${option.oid}.jpg"/> 
+                             }
                             </div>
-                          </div>
-                        {/* </c:forEach> */}
-                        <input type="submit" className="btn btn-primary btn-sm mt-5 px-5" label="Next" />
+                          </div>);
+                        })}
+                        <button className="btn btn-primary btn-sm mt-5 px-5" onClick={incrementIndex}>Next</button>
                       </form>
-                    {/* </c:if> */}
+                    }
 
-                    {/* <c:if test="${question.questionFormat.equals('sub-a')}"> */}
-                      <form className="mt-2" method="POST" action="/user/test/plac/qn" /*${tid} */ modelAttribute="opt" enctype="multipart/form-data">
+                    {questions[index].questionFormat === 'sub-a' &&
+                      <form className="mt-2" method="POST" action="/user/test/tid/qn" encType="multipart/form-data">
                         
                           <div className="card px-2 py-2 mb-2">
                             <div className="form-check">
@@ -108,9 +120,9 @@ const TestPage =() =>{
                             </div>
                           </div>
                         
-                        <input type="submit" className="btn btn-primary btn-sm mt-5 px-5" label="Next" />
+                        <button className="btn btn-primary btn-sm mt-5 px-5" onClick={incrementIndex}>Next</button>
                       </form>
-                    {/* </c:if> */}
+                    }
 
                   </div>
                 </div>
@@ -190,7 +202,8 @@ const TestPage =() =>{
     <script src="plac/joinClient.js"></script>
   {/*${pageContext.request.contextPath}*/}
         
-        </div>
+       </div> 
+        </>
     )
 }
 

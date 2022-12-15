@@ -2,9 +2,7 @@ const mongoose=require('mongoose');
 
 const submissionSchema = mongoose.Schema(
     {
-        _id: {
-            type:mongoose.SchemaTypes.ObjectId,
-        },
+        
         qid:{
             type:mongoose.SchemaTypes.ObjectId,
             required: true,
@@ -22,7 +20,7 @@ const submissionSchema = mongoose.Schema(
             required: true,
             default: "",
         },
-        mark:{
+        marks:{
             type: Number,
             required: true,
         },

@@ -16,7 +16,7 @@ dotenv.config();
 require('./config/mongodbConnect').connect();
 app.use(express.json());
 app.use(morgan('dev'));
-
+app.use("/upload",express.static("./../uploads"));
 
 app.use(express.static(path.resolve(__dirname,'../client/build')));
 
