@@ -56,17 +56,11 @@ const [userList,setUserList]=useState([]);
   
   useEffect(()=>{
     setLoading(true);
-    //fetch participants
     fetch('/api/users/getAllUsers').then((res)=>res.json())
     .then((data)=>setUserList(data.users))
     
-    //fetch tests
     fetch('/api/admin/tests/'+user._id,{
-     
-    // Adding method type
     method: "GET",
-         
-    // Adding headers to the request
     headers: {
         "Content-type": "application/json; charset=UTF-8"
     }
