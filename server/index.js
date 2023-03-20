@@ -13,7 +13,7 @@ const morgan=require("morgan");
 const app=express();
 dotenv.config();
 //connectDB();
-require('./config/mongodbConnect').connect();
+//require('./config/mongodbConnect').connect();
 app.use(express.json());
 app.use(morgan('dev'));
 app.use("/upload",express.static("./../uploads"));
