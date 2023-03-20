@@ -138,7 +138,7 @@ const fetchTest=async()=>{
     })
   } 
 
-  exports.modules={
+  export {
     fetchTest,
     fetchQuestions,
     addOption,
