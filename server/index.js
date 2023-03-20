@@ -18,7 +18,7 @@ app.use(express.json());
 app.use(morgan('dev'));
 app.use("/upload",express.static("./../uploads"));
 
-app.use(express.static(path.resolve(__dirname,'../client/build')));
+app.use(express.static(path.resolve(__dirname,'../build')));
 
 app.get("/api",(req,res) =>{
     res.json({ message: "Hello from server!"});
@@ -26,7 +26,7 @@ app.get("/api",(req,res) =>{
 app.use('/api/users',userRoutes);
 app.use('/api/admin',adminRoutes);
 app.get('*', function(req, res) {
-    res.sendFile('index.html', {root: path.join(__dirname, '../client/build/')});
+    res.sendFile('index.html', {root: path.join(__dirname, '../build/')});
   });
 
 app.use(notFound);

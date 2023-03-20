@@ -2,12 +2,16 @@ FROM node:16-buster
 
 ENV PORT 3001
 
-COPY . /onview
-
 WORKDIR /onview
+
+COPY ./package.json ./package.json
 
 RUN npm install
 
+COPY . .
+
+RUN npm run build
+
 EXPOSE ${PORT}
 
-CMD ["npm","start"]
+CMD ["node","server/index.js"]
