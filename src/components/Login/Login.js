@@ -3,7 +3,9 @@ import {useEffect, useRef, useState} from "react";
 import ErrorMessage from "./ErrorMessage";
 import Loading from "./Loading";
 import { useNavigate } from "react-router";
-
+import { useDispatch, useSelector } from "react-redux";
+import { authActions } from "../../store/AuthSlice";
+import { Link } from "react-router-dom";
 
 
 const Login=() => {
@@ -12,47 +14,46 @@ const Login=() => {
     const [loading,setLoading]=useState(false);
     const [error,setError]=useState("");
     const navigate=useNavigate();
+    const dispatch=useDispatch();
     const userInfo=useRef("");
-    const [authorized,setAuthorized]=useState(false)
+    const isLoggedIn=useSelector(state=>state.auth.isLoggedIn);
+
     useEffect(() => {
         userInfo.current=localStorage.getItem("userInfo");
-        if(userInfo.current){
+        if(userInfo.current)
+            dispatch(authActions.login());
+        if(isLoggedIn){
             if(JSON.parse(userInfo.current).isAdmin)
                 navigate("/admin/adminDashboard",{replace:true});
             else
                 navigate("/user/userDashboard",{replace:true});
         }
-        },[authorized]);
+        console.log("isLoggedIn:"+isLoggedIn);
+        },[isLoggedIn]);
 
     const submitHandler = async (e) => {
-        e.preventDefault();
-        console.log(email,password);
+            e.preventDefault();
+            console.log(email,password);
 
-        try {
-            
             const config={
                 headers:{
                     "Content-type": "application/json",
                 },  
             };
             setLoading(true);
-            const {data}=await axios.post(
-                "/api/users/login",
-                {
-                    email,
-                    password
-                },
-                config
-            );
+            axios.post("/api/users/login",{email,password},config)
+            .then((res)=>res.data)
+            .then((data)=>{
                 console.log(data);
                 localStorage.setItem("userInfo",JSON.stringify(data));
-            setLoading(false);
+                dispatch(authActions.login());
+                setLoading(false);
                 setError("");
-                setAuthorized(true);
-        } catch (error) {
-            setLoading(false);
-            setError(error.response.data.message);
-        }
+            })
+            .catch ((error)=> {
+                setLoading(false);
+                setError(error.response.data.message);
+        });
     };
 
     return(
@@ -91,8 +92,8 @@ const Login=() => {
                     </div>
                     <div className="mt-3 text-center">
                         <div className="text-secondary mb-2"> OR</div>
-                        Don't have an account ? <a href="/registerUser" >Sign Up (for users)</a><br/>
-                        <a href="/registerAdmin" >Sign Up (for admins)</a><br/>
+                        Don't have an account ? <Link to="/registerUser" >Sign Up (for users)</Link><br/>
+                        <Link to="/registerAdmin" >Sign Up (for admins)</Link><br/>
                     </div>
             {/* spinner */}
                     {loading && <Loading/>}

@@ -1,4 +1,5 @@
 import AdminHeader from "./AdminHeader"
+import { Link } from "react-router-dom";
 
 const AdminResult = () => {
     return(
@@ -10,8 +11,8 @@ const AdminResult = () => {
       <div className="px-5 mt-4">
         <nav aria-label="breadcrumb">
           <ol className="breadcrumb">
-            <li className="breadcrumb-item text-primary"><a href="/admin/adminHistory" className="decor-none"> Completed</a></li>
-            <li className="breadcrumb-item active" aria-current="page"><a href="/admin/adminHistory" className="decor-none">Back</a></li>
+            <li className="breadcrumb-item text-primary"><Link to="/admin/adminHistory" className="decor-none"> Completed</Link></li>
+            <li className="breadcrumb-item active" aria-current="page"><Link to="/admin/adminHistory" className="decor-none">Back</Link></li>
           </ol>
         </nav>
       </div>
@@ -27,7 +28,7 @@ const AdminResult = () => {
           <div className="col-12">
               <div className="d-flex justify-content-between">
                    <div className="h5 text-b">Interview : <span className="text-primary">{/*${test.tname}*/}</span></div> 
-                  <div> <a href="/admin/excelExport/placeholder" /*${test.tid}*/ className="btn bg-success text-white btn-sm"><i className="fas fa-download"></i> Download Result</a></div>
+                  <div> <Link to="/admin/excelExport/placeholder" /*${test.tid}*/ className="btn bg-success text-white btn-sm"><i className="fas fa-download"></i> Download Result</Link></div>
               </div>
           </div>
       </div>

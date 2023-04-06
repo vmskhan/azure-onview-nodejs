@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 const UserTestComp=(props)=>{
     const [participation,setParticipation]=useState({last_attempted:0,paymentDone:'true'});
@@ -14,9 +15,9 @@ const UserTestComp=(props)=>{
             <div className="col-4 mt-4">
             <div className="shadow border rounded-3 border-4 border-danger">
               <div className="card-header border-bottom border-dark text-img text-d" style={{height: '120px'}}>
-                <a href={props.titleUrl} onClick={handleClickTest} className="decor-none">
+                <Link to={props.titleUrl} onClick={handleClickTest} className="decor-none">
                     <h4>{props.testobj.tname}</h4> 
-                </a>
+                </Link>
               </div>
               <div className="px-3 py-2">
                 <div className="d-flex justify-content-between">
@@ -44,14 +45,14 @@ const UserTestComp=(props)=>{
                     {props.testobj.needPayment === 'false' &&
                         <>
                             {participation.last_attempted === 0 && 
-                                <a href="/user/test/${test.test.tid}/s">
+                                <Link to="/user/test/${test.test.tid}/s">
                                 <button className="btn btn-sm bg-success text-white"><i className="fas fa-play"></i> Start Interview</button>
-                                </a> 
+                                </Link> 
                             }
                             {participation.last_attempted !== 0 &&
-                                <a href="/user/test/${test.test.tid}/qn">
+                                <Link to="/user/test/${test.test.tid}/qn">
                                 <button className="btn btn-sm bg-b text-white"><i className="fab fa-rev"></i> Resume Interview</button>
-                                </a>
+                                </Link>
                             }
                         </>
                     }
@@ -59,21 +60,21 @@ const UserTestComp=(props)=>{
                     {props.testobj.needPayment === 'true' &&
                         <>
                             {participation.paymentDone === 'false' &&
-                            <a href="/user/test/${test.test.tid}/payment">
+                            <Link to="/user/test/${test.test.tid}/payment">
                             <button className="btn btn-sm bg-y text-white">Pay Rs ${props.testobj.amount}</button>
-                            </a>
+                            </Link>
                             }
                             {participation.paymentDone === 'true' &&
                             <>
                                 {participation.last_attempted === 0 &&
-                                <a href="/user/test/${test.test.tid}/s">
+                                <Link to="/user/test/${test.test.tid}/s">
                                     <button className="btn btn-sm bg-success text-white"><i className="fas fa-play"></i> Start Interview</button>
-                                </a>
+                                </Link>
                                 }
                                 {participation.last_attempted !== 0 &&
-                                <a href="/user/test/${test.test.tid}/qn">
+                                <Link to="/user/test/${test.test.tid}/qn">
                                     <button className="btn btn-sm bg-b text-white"><i className="fab fa-rev"></i> Resume Interview</button>
-                                </a>
+                                </Link>
                                 }
                             </>
                             }

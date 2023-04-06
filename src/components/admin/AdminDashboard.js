@@ -3,10 +3,14 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import TestComp from "../test/TestComp";
 import Loading from "../Login/Loading";
-
+import { useDispatch } from "react-redux";
+import { adminDashboardActions } from "../../store/AdminDashboardSlice";
+import { useSelector } from "react-redux";
+import { getTests, getUsers } from "../../store/AdminDashboardActions";
 
 const AdminDashboard = () => {
-  const [tests,setTests] = useState([]);
+  const isLoggedIn=useSelector(state=>state.auth.isLoggedIn);
+  const tests = useSelector(state=>state.adminDashboard.tests);
   const [tname,setTname]=useState("");
   const [amount,setAmount]=useState(0);
   const [date,setDate]=useState("");
@@ -18,14 +22,33 @@ const AdminDashboard = () => {
   const [pid,setPid]=useState("");
   const [uid,setUid]=useState("");
   const [loading,setLoading]=useState(false);
-  const [fetchAgain,setFetchAgain] = useState(false);
-const [userList,setUserList]=useState([]);
 
+const userList=useSelector(state=>state.adminDashboard.usersList);
+const dispatch=useDispatch();
   const user=JSON.parse(localStorage.getItem('userInfo'));
+  useEffect(()=>{
+    console.log(userList);
+    console.log("isLoggedIn:"+isLoggedIn);
+  },[])
+  
+  useEffect(()=>{
+    fetchTests();
+},[]);
+  
+useEffect(()=>{
+  console.log(tests);
+},[tests]);
+  
+useEffect(()=>{
+  fetchUsers();
+},[]);
+  
+
+  
   
   const newTestHandler=async(e)=>{
     e.preventDefault();
-    try{
+    
       const config={
         headers:{
             "Content-type": "application/json",
@@ -40,42 +63,29 @@ const [userList,setUserList]=useState([]);
       setNeedPayment(true);
     }
 
-    const {data} = await axios.post(
-      "/api/admin/test",
-      {tname,amount,date,duration,needPayment,start_time,state,totalMarks,pid,uid},
-      config
-  );
+     axios.post("/api/admin/test",{tname,amount,date,duration,needPayment,start_time,state,totalMarks,pid,uid},config)
+  .then((res)=>res.data)
+  .then((data)=>{
   console.log(data);
-  setFetchAgain(true);
-  // setFetchAgain(false);
-    }
-    catch(error){
+  fetchTests();
+
+  })
+    .catch((error)=>{
       console.log(error);
-    }
+    });
+  }
+
+  const fetchUsers=()=>{
+    if(userList.length===0)
+      dispatch(getUsers());
+    };
+  
+
+  const fetchTests=()=>{
+    if(tests.length===0)
+      dispatch(getTests(user._id));
   }
   
-  useEffect(()=>{
-    setLoading(true);
-    fetch('/api/users/getAllUsers').then((res)=>res.json())
-    .then((data)=>setUserList(data.users))
-    
-    fetch('/api/admin/tests/'+user._id,{
-    method: "GET",
-    headers: {
-        "Content-type": "application/json; charset=UTF-8"
-    }
-}).then((res) => res.json())
-  .then((data)=> {
-     setTests(data.resData);
-     console.log(data.resData);
-    // console.log(tests);
-    setLoading(false);
-  })
-  
-  //console.log(tests);
-  console.log('fetched');
-},[fetchAgain]);
-
 
     return(
 <div>

@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import "./user.css";
 import UserHeader from "./UserHeader";
 const UserResult = () =>{
@@ -9,8 +10,8 @@ const UserResult = () =>{
       <div className="px-5 mt-4">
         <nav aria-label="breadcrumb">
           <ol className="breadcrumb">
-            <li className="breadcrumb-item text-primary"><a href="/user/userDashboard" className="decor-none"> Dashboard</a></li>
-            <li className="breadcrumb-item active" aria-current="page"><a href="/user/userHistory" className="decor-none">Back</a></li>
+            <li className="breadcrumb-item text-primary"><Link to="/user/userDashboard" className="decor-none"> Dashboard</Link></li>
+            <li className="breadcrumb-item active" aria-current="page"><Link to="/user/userHistory" className="decor-none">Back</Link></li>
           </ol>
         </nav>
       </div>
@@ -26,8 +27,8 @@ const UserResult = () =>{
           <div className="col-12">
               <div className="d-flex justify-content-between">
                    <div className="h5 text-b">Interview : <span className="text-primary">{/*${tname}*/}</span></div> 
-                  <div> <a href="/user/sendMail/plhl1/plhl2" /*${tid}   ${uid} */ className="btn bg-success text-white btn-sm"><i className="fa fa-share-alt"></i> Share Result</a>
-                    <a href="/user/exportpdf/plhl1/plhl2" /*${tid}   ${uid} */ className="btn bg-success text-white btn-sm"><i className="fas fa-download"></i> Download Result</a></div>
+                  <div> <Link to="/user/sendMail/plhl1/plhl2" /*${tid}   ${uid} */ className="btn bg-success text-white btn-sm"><i className="fa fa-share-alt"></i> Share Result</Link>
+                    <Link to="/user/exportpdf/plhl1/plhl2" /*${tid}   ${uid} */ className="btn bg-success text-white btn-sm"><i className="fas fa-download"></i> Download Result</Link></div>
                   
               </div>
           </div>

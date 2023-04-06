@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 const UserTestResultComp=(props)=>{
   const [participation,setParticipation]=useState({score:5});
@@ -14,9 +15,9 @@ const UserTestResultComp=(props)=>{
             <div className="col-4 mt-4">
             <div className="shadow border rounded-3 border-4 border-primary">
               <div className="card-header border-bottom border-dark text-img text-d" style={{height: '120px'}}>
-              <a href={props.titleUrl} onClick={handleClickTest} className="decor-none">
+              <Link to={props.titleUrl} onClick={handleClickTest} className="decor-none">
                     <h4>{props.testobj.tname}</h4> 
-                </a>
+                </Link>
               </div>
               <div className="px-3 py-2">
                 <div className="d-flex justify-content-between">

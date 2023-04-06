@@ -3,11 +3,13 @@ import { useEffect, useState } from "react";
 import MarksSection from "./MarksSection";
 import OffcanvasHeader from "./OffcanvasHeader";
 import QuestionSection from "./QuestionSection";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 const { default: AdminHeader } = require("../admin/AdminHeader")
 
 const AdminQuestion = () => {
- const [test,setTest]=useState({});
+ 
 const [loading,setLoading]=useState(false);  
 const [optionListTypeA,setOptionListTypeA]=useState([{hasText:true,hasImage:false,text:" "}]);
 const [optionListTypeB,setOptionListTypeB]=useState([{hasText:true,hasImage:false,text:" "},]);
@@ -16,18 +18,26 @@ const [questionText,setQuestionText]=useState("");
 const [marks,setMarks]=useState(0);
 const [answerText,setAnswerText]=useState("");
 const [questions,setQuestions]=useState([{}]);
-const [userList,setUserList]=useState([{}]);
-const testId=localStorage.getItem('currentTest');  
 
-  useEffect(()=>{
-    setLoading(true);
-    // //fetch participants
-    fetch('/api/users/getAllUsers').then((res)=>res.json())
-    .then((data)=>setUserList(data.users))
-    fetchTest();
-  //console.log(tests);
-  // console.log('fetched');
-},[]);
+const testId=localStorage.getItem('currentTest');  
+const test=useSelector(state=>state.adminDashboard.tests.filter((test)=>test._id===testId));
+const usersList=useSelector(state=>state.adminDashboard.usersList);
+useEffect(()=>{
+  console.log("userlist useeffect");
+console.log(usersList);
+console.log(testId)
+console.log(test)
+},[usersList])
+
+  // useEffect(()=>{
+//     setLoading(true);
+//     // //fetch participants
+//     fetch('/api/users/getAllUsers').then((res)=>res.json())
+//     .then((data)=>setUserList(data.users))
+//    fetchTest();
+//   //console.log(tests);
+//   // console.log('fetched');
+// },[]);
 
 const fetchTest=async()=>{
   //fetch tests
@@ -39,7 +49,7 @@ const fetchTest=async()=>{
     }
   }).then((res) => res.data)
   .then((data)=> {
-    setTest(data.resData[0]);
+    // setTest(data.resData[0]);
     console.log(data.resData[0]);
     fetchQuestions();
     setLoading(false);
@@ -177,7 +187,7 @@ const changeTestState=(newState)=>{
         <div className="px-5 mt-4">
           <nav aria-label="breadcrumb">
             <ol className="breadcrumb">
-              <li className="breadcrumb-item "><a href="/admin/adminDashboard" className="decor-none">Dashboard</a></li>
+              <li className="breadcrumb-item "><Link to="/admin/adminDashboard" className="decor-none">Dashboard</Link></li>
               <li className="breadcrumb-item active" aria-current="page">Interview</li>
             </ol>
           </nav>
@@ -197,9 +207,9 @@ const changeTestState=(newState)=>{
                     {test.state == 'start' &&
                       <div>
                           <button className="btn bg-r text-white  btn-sm" onClick={(e)=>changeTestState('end')}><i className="fab fa-cloudscale"></i> End Interview</button>
-                        <a href="/admin/startMeet">
+                        <Link to="/admin/startMeet">
                           <button className="btn bg-info text-white  btn-sm"><i className="far fa-handshake"></i> Start Zoom Meeting</button>
-                        </a>
+                        </Link>
                       </div>  
                     }  
                 </div>
@@ -249,9 +259,9 @@ const changeTestState=(newState)=>{
                               {/* <!-- <button className="btn btn-primary btn-sm "><i className="fas fa-edit"></i> edit</button> --> */}
                               <span className="px-2"></span>
   
-                              <a href="/admin/test/placeolder1/qn/placeholder/d">{/*${q.qid}    ${test.tid}*/}
+                              <Link to="/admin/test/placeolder1/qn/placeholder/d">{/*${q.qid}    ${test.tid}*/}
                                 <button className="btn btn-link btn-sm text-r decor-none"><i className="fas fa-trash"></i> delete</button>
-                              </a>
+                              </Link>
                             </td>  
                             }
                         </tr>

@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const { default: AdminHeader } = require("./AdminHeader")
 
 const AdminEvaluateAnswer = () => {
@@ -9,7 +11,7 @@ const AdminEvaluateAnswer = () => {
         <div className="px-5 mt-4">
           <nav aria-label="breadcrumb">
             <ol className="breadcrumb">
-              <li className="breadcrumb-item "><a href="/admin/adminEvaluation" className="decor-none">Pending</a></li>
+              <li className="breadcrumb-item "><Link to="/admin/adminEvaluation" className="decor-none">Pending</Link></li>
               <li className="breadcrumb-item active" aria-current="page">Interview</li>
             </ol>
           </nav>
@@ -23,7 +25,7 @@ const AdminEvaluateAnswer = () => {
                   </div>
                   <div>
                      <div className="h5 text-b">Interviewee : <span className="text-primary">{/*${participant_name}*/}</span></div> 
-                    <button className="btn bg-info fw-bolder"><a href="/admin/test/placeholder/finishEvaluation" /*${test.tid}*/ >Finish Evaluation</a></button>
+                    <button className="btn bg-info fw-bolder"><Link href="/admin/test/placeholder/finishEvaluation" /*${test.tid}*/ >Finish Evaluation</Link></button>
                   </div>
                     
                 </div>

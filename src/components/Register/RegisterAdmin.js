@@ -3,6 +3,7 @@ import ErrorMessage from '../Login/ErrorMessage';
 import Loading from '../Login/Loading';
 import './register.css';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 const RegisterAdmin=() => {
     const [name,setName]=useState("");
@@ -88,7 +89,7 @@ const RegisterAdmin=() => {
                     </div>
                     <div className="mt-3 text-center">
                         <div className="text-secondary mb-2"> OR</div>
-                        Already have an account ? <a href="/" >Login</a><br/>
+                        Already have an account ? <Link to="/" >Login</Link><br/>
                     </div>
                     {loading && <Loading/>}
                 </form>

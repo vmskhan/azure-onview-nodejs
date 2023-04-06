@@ -1,31 +1,31 @@
 import { useEffect, useState } from "react";
 import TestComp from "../test/TestComp";
 import AdminHeader from "./AdminHeader";
+import { useDispatch, useSelector } from "react-redux";
+import { getTests } from "../../store/AdminDashboardActions";
 
 const AdminEvaluation = () => {
-  const [tests,setTests] = useState([]);
+  const tests=useSelector(state=>state.adminDashboard.tests);
+  const dispatch=useDispatch();
   const [uid,setUid]=useState("");
   const [loading,setLoading]=useState(false);
-  const [fetchAgain,setFetchAgain] = useState(false);
-
-  const user=JSON.parse(localStorage.getItem('userInfo'));
-  useEffect(()=>{
-    setLoading(true);
-    fetch('/api/admin/tests/'+user._id,{
-
-    method: "GET",
-    headers: {
-        "Content-type": "application/json; charset=UTF-8"
-    }
-}).then((res) => res.json())
-  .then((data)=> {
-     setTests(data.resData);
-     console.log(data.resData);
-    setLoading(false);
-  })
   
-  console.log('fetched');
-},[fetchAgain]);
+  const user=JSON.parse(localStorage.getItem('userInfo'));
+  
+  
+useEffect(()=>{
+  fetchTests();
+},[]);
+
+useEffect(()=>{
+  console.log(tests);
+},[tests]);
+
+
+const fetchTests=()=>{
+  if(tests.length===0)
+    dispatch(getTests(user._id));
+}
 
   return(
         <div>

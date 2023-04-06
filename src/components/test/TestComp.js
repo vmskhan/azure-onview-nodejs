@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
 
 const TestComp= (props) => {
     useEffect(()=>{
@@ -11,9 +12,9 @@ const TestComp= (props) => {
         <div className="col-4 mt-4" key={props.index}>
             <div className="shadow">
               <div className="card-header text-img text-d" style={{height: '120px'}}>
-               <a href={props.titleUrl} onClick={handleClickTest} className="decor-none">
+               <Link to={props.titleUrl} onClick={handleClickTest} className="decor-none" >
                   <h4>{props.testobj.tname}</h4> 
-               </a>
+               </Link>
               </div>
               <div className="px-3 py-2">
                 <div className="d-flex justify-content-between">
