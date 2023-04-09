@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 // import logo from './logo.svg';
 import './App.css';
 
@@ -18,25 +18,34 @@ import AdminResult from "./components/admin/AdminResult";
 import UserDashBoard from "./components/user/UserDashboard";
 import UserHistory from "./components/user/UserHistory";
 import UserResult from "./components/user/UserResult";
-import UserPayment from "./components/user/userPayment";
+import UserPayment from "./components/user/UserPayment";
 import StartTest from "./components/user/StartTest";
 import TestPage from "./components/user/TestPage";
 
-import AdminQuestion from "./components/QuestionComp/AdminQuestion";
-import { useSelector } from "react-redux";
+import AdminQuestion from "./components/AdminQuestionComp/AdminQuestion";
+import { useDispatch, useSelector } from "react-redux";
+import { authActions } from "./store/AuthSlice";
 
 
 const App = () => {
     const isLoggedIn=useSelector(state=>state.auth.isLoggedIn);
+    const dispatch=useDispatch();
+    useEffect(()=>{
+      let userInfo=localStorage.getItem("userInfo");
+       console.log(userInfo);
+      if(userInfo)
+          dispatch(authActions.login());
+    },[])
   return( 
   <BrowserRouter>
     <Routes>
-    <Route path = "/*" element = {<Login/>} exact />
+    <Route path = "/" element = {<Login/>} exact />
+      <Route path ="/registerUser" element={<RegisterUser/>} exact/>
+      <Route path ="/registerAdmin" element={<RegisterAdmin/>} exact/>
       {/* <Route path = "/new" element = {<NewLogin/>} exact /> */}
       {isLoggedIn &&
       <>
-      <Route path ="/registerUser" element={<RegisterUser/>} exact/>
-      <Route path ="/registerAdmin" element={<RegisterAdmin/>} exact/>
+     
       <Route path ="/admin/adminDashboard" element={<AdminDashboard/>} exact/>
       <Route path ="/admin/adminHistory" element={<AdminHistory/>} exact/>
       <Route path ="/admin/adminEvaluation" element={<AdminEvaluation/>} exact/>

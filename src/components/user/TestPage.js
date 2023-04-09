@@ -2,39 +2,77 @@ import { useEffect, useState } from "react";
 import TestHeader from "./TestHeader";
 import axios from "axios";
 import "./user.css";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { endSubmission, getQuestionsUser, updateSubmission } from "../../store/User-actions";
+import { useNavigate } from "react-router";
+import AdminDynamicComponent from "../data/AdminDynamicComponent";
+import UserDynamicComponent from "../data/UserDynamicComponent";
 
 const TestPage =() =>{
-  const [questions,setQuestions]=useState([{options:{},questionFormat:'d'}]);
+  const questions=useSelector(state=>state.user.questions);
+  const dispatch=useDispatch();
+  
   const [index,setIndex]=useState(0);
+  const [questionType,setQuestionType]=useState('Objective Type-A');
+  
+  
   const testId=localStorage.getItem('currentTest');
   const offcanvasStyle={width: '250px', marginTop : '104px', overflow: 'hidden'};  
   const offcanvasBodyStyle={marginLeft: '25px', overflow: 'hidden'};
   const offcanvasBodyChildDivStyle={minHeight: '250px', maxHeight: '250px' , width: '100%', overflow: 'scroll', overflowX : 'hidden' ,paddingRight: '17px', boxSizing: 'content-box' }
-  
+  const user=JSON.parse(localStorage.getItem('userInfo'));
+  const [answer,setAnswer]=useState("");
+  const navigate=useNavigate();
+const getdynamo=()=>{
+    const element=React.createElement('Objective Type-A');
+    return element;
+}
   useEffect(()=>{
     fetchQuestions();
   },[]);
   
   const fetchQuestions=()=>{
-    axios.get('/api/admin/questions/'+testId,{
-      method: "GET",
-      // Adding headers to the request
-      headers: {
-          "Content-type": "application/json; charset=UTF-8"
-      }
-  }).then((res) => res.data)
-    .then((data)=> {
-       setQuestions(data.resData);
-       console.log(data.resData);
-    })
+    dispatch(getQuestionsUser(testId));
   }
-const incrementIndex=(e)=>{
-  e.preventDefault();
-  setIndex(index+1);
-}
+useEffect(()=>{
+  console.log(questions);
+},[questions]);
 
+const incrementIndex=()=>{
+  if(index<questions.length-1)
+  {
+  setIndex(index+1);
+  setQuestionType(questions[index+1].questionFormat);
+  setAnswer("");
+  }
+}
+const submissionHandler=()=>{
+  const data={
+    uid:user._id,
+    question:questions[index],
+    choice:answer,
+  }
+  console.log(data);
+  console.log(user);
+  incrementIndex();
+dispatch(updateSubmission(data));
+}
+const endTestHandler=()=>{
+  
+  const data={
+    uid:user._id,
+    question:questions[index],
+    choice:answer,
+  }
+  console.log(data);
+  dispatch(updateSubmission(data));
+  dispatch(endSubmission({'tid':testId,'uid':user._id}));
+  navigate('/user/userDashboard',{replace:true});
+}
   return(
     <>
+    {questions &&
         <div>
           <TestHeader/>
     <div className="container-fluid">
@@ -47,84 +85,18 @@ const incrementIndex=(e)=>{
 
                 </div>
 
-
-
                 <div className="col-6">
-                  <div className="">
-                    <div className="d-flex justify-content-between">
-                       <div className="h5 text-b">Question {questions[index].idx}</div> 
-                      <p>Mark : <strong>{questions[index].marks}</strong></p>
-                    </div>
-                    <div className="mt-2">
-                      <p>{questions[index].questionText}</p>
-                    </div>
+                {/* {getdynamo()} */}
+                 {questions.length>0  &&
+                 <UserDynamicComponent questionType={questionType} question={questions[index]} answer={answer} setAnswer={setAnswer} />}
                     
-                    <div className="mt-2">
-                      { questions[index].questionImage!=null &&
-                      <img className="w-50" src="/img/qs${question.qid}.jpg"/>
+                {index<questions.length-1?(
+                    <button className="btn btn-primary btn-sm mt-5 px-5" role="button" onClick={submissionHandler}>Next</button>
+                ):(
+                  <button className="btn btn-primary btn-sm mt-5 px-5" role="button" onClick={endTestHandler}>End</button>
+                )
                     }
-                    </div>
                   
-                  </div>
-
-                  <div className="">
-                    <div className="d-flex justify-content-between">
-                      <div className="h5 text-b">Options</div>
-                    </div>
-                    {questions[index].questionFormat ==='obj-a' &&
-                      <form className="mt-2" >
-                        {/* action="/user/test/tid/qn"  */}
-                        {questions[index].options.map((option,index)=>{
-                          return(<div className="card px-2 py-2 mb-2 border-danger">
-                            <div className="form-check">
-                              <input className="form-check-input" type="radio"  id={index+1} value={option.text} name="answerText" required />
-                              <label className="form-check-label mb-2" htmlFor={index+1}>{option.text}</label>
-                              <div className="w-100"></div>
-                              {option.hasImage &&
-                              <img className="w-50" src="/img/os${option.oid}.jpg"/>
-                              }
-                            </div>
-                          </div>);
-                        })}
-                        <button  className="btn btn-primary btn-sm mt-5 px-5"  onClick={incrementIndex}>Next</button>
-                      </form>
-                    }
-
-                    {questions[index].questionFormat === 'obj-b' &&
-                      <form className="mt-2" method="POST" action="/user/test/${tid}/qn" >
-                        {questions[index].options.map((option,index)=>{
-                          return(<div className="card px-2 py-2 mb-2">
-                            <div className="form-check">
-                              <input className="form-check-input" type="checkbox"  id={index+1} value={option.text} name="answerText" />
-                              <label className="form-check-label mb-2" htmlFor={index+1}>{option.text}</label>
-                              {option.hasImage &&    
-                              <img className="w-100" src="/img/os${option.oid}.jpg"/> 
-                             }
-                            </div>
-                          </div>);
-                        })}
-                        <button className="btn btn-primary btn-sm mt-5 px-5" onClick={incrementIndex}>Next</button>
-                      </form>
-                    }
-
-                    {questions[index].questionFormat === 'sub-a' &&
-                      <form className="mt-2" method="POST" action="/user/test/tid/qn" encType="multipart/form-data">
-                        
-                          <div className="card px-2 py-2 mb-2">
-                            <div className="form-check">
-                              <label className="form-check-label mb-2" htmlFor="ans">Answer: </label><br/>
-                              <textarea className="form-control"  id="ans"  name="answerText" required></textarea>
-                              <label className="form-check-label mb-2" htmlFor="fileupld">Upload files: </label>
-                              <input className="form-control" type="file" name="answerImage" id="fileupld"/>
-                              
-                            </div>
-                          </div>
-                        
-                        <button className="btn btn-primary btn-sm mt-5 px-5" onClick={incrementIndex}>Next</button>
-                      </form>
-                    }
-
-                  </div>
                 </div>
 
 
@@ -133,9 +105,10 @@ const incrementIndex=(e)=>{
           </div>
         </div>        
     </div>
+
     <button className="btn btn-primary nav-btn px-1 py-4 bg-white text-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" ><i className="fas fa-arrow-left"></i></button>
 
-        <div className="offcanvas offcanvas-end" style={offcanvasStyle}  data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+        <div className="offcanvas offcanvas-end" style={offcanvasStyle}  data-bs-scroll="true" data-bs-backdrop="false" tabIndex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
           
           <div className="offcanvas-body w-100 pt-0 pl-0" style={offcanvasBodyStyle} >
                 <div style={offcanvasBodyChildDivStyle} className="border">
@@ -203,6 +176,7 @@ const incrementIndex=(e)=>{
   {/*${pageContext.request.contextPath}*/}
         
        </div> 
+}
         </>
     )
 }

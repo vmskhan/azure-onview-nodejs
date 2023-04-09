@@ -1,29 +1,21 @@
 import { useEffect, useState } from "react";
 import UserTestResultComp from "../test/UserTestResultComp";
 import UserHeader from "./UserHeader"
+import { useDispatch, useSelector } from "react-redux";
+import { getUserTests } from "../../store/User-actions";
 
 const UserHistory = () =>{
-  const [tests,setTests] = useState([]);
+  const tests=useSelector(state=>state.user.tests);
+  const dispatch=useDispatch();
   const [uid,setUid]=useState("");
   const [loading,setLoading]=useState(false);
   const [fetchAgain,setFetchAgain] = useState(false);
 
   const user=JSON.parse(localStorage.getItem('userInfo'));
   useEffect(()=>{
-    setLoading(true);
-    fetch('/api/users/tests/'+user._id,{
+    if(tests.length===0)
+      dispatch(getUserTests(user._id));
 
-    method: "GET",
-    headers: {
-        "Content-type": "application/json; charset=UTF-8"
-    }
-}).then((res) => res.json())
-  .then((data)=> {
-     setTests(data.resData);
-     console.log(data.resData);
-    setLoading(false);
-  })
-  
   console.log('fetched');
 },[fetchAgain]);
 
@@ -43,7 +35,7 @@ const UserHistory = () =>{
         </div>
 
         <div className="row px-5">
-          {tests.length === 0 &&
+          {tests.filter((test)=>test.state==='end').length === 0 &&
             <div className="text-center text-secondary mt-5">
               You don't have any completed Interviews.
             </div>

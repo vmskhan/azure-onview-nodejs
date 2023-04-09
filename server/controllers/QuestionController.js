@@ -47,11 +47,11 @@ const createQuestion=asyncHandler(async(req,res) => {
 
 const updateQuestionById=asyncHandler(async(req,res) => {
     // console.log('admin create tests method called');
-    const {qid,questionText,questionImage,options,answerText,answerImage,marks,idx,questionFormat,tid} =req.body;
+    const {qid,questionText,questionImage,options,answerText,answerImage,marks,idx,questionFormat} =req.body;
     
     // console.log("test doenst exist already");
     await Question.findByIdAndUpdate(qid,{
-        questionText,questionImage,options,answerText,answerImage,marks,idx,questionFormat,tid
+        questionText,questionImage,options,answerText,answerImage,marks,idx,questionFormat
     });
     // console.log('test created')
     

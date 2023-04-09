@@ -14,7 +14,8 @@ const AdminEvaluation = () => {
   
   
 useEffect(()=>{
-  fetchTests();
+  if(tests.length===0)
+    fetchTests();
 },[]);
 
 useEffect(()=>{
@@ -23,7 +24,6 @@ useEffect(()=>{
 
 
 const fetchTests=()=>{
-  if(tests.length===0)
     dispatch(getTests(user._id));
 }
 

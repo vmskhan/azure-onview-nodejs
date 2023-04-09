@@ -1,31 +1,22 @@
 import { useEffect, useState } from "react";
 import UserTestComp from "../test/UserTestComp";
 import UserHeader from "./UserHeader"
+import { useDispatch, useSelector } from "react-redux";
+import { getUserTests } from "../../store/User-actions";
+import { Link } from "react-router-dom";
 
 const UserDashBoard = () => {
-  const [tests,setTests] = useState([]);
+  const dispatch=useDispatch();
+  const tests=useSelector(state=>state.user.tests);
   const [uid,setUid]=useState("");
   const [loading,setLoading]=useState(false);
-  const [fetchAgain,setFetchAgain] = useState(false);
-
+  
   const user=JSON.parse(localStorage.getItem('userInfo'));
   useEffect(()=>{
-    setLoading(true);
-    fetch('/api/users/tests/'+user._id,{
-
-    method: "GET",
-    headers: {
-        "Content-type": "application/json; charset=UTF-8"
-    }
-}).then((res) => res.json())
-  .then((data)=> {
-     setTests(data.resData);
-     console.log(data.resData);
-    setLoading(false);
-  })
-  
-  console.log('fetched');
-},[fetchAgain]);
+   if(tests.length===0)
+    dispatch(getUserTests(user._id));
+    
+},[]);
 
     return(
         <div>
@@ -35,6 +26,7 @@ const UserDashBoard = () => {
             <div className="col-12">
                 <div className="d-flex justify-content-between">
                     <div className="h5 text-b">Interview Live</div>
+                    {/* <Link to="/user/userPayment">userPayment</Link> */}
                 </div>
             </div>
         </div>

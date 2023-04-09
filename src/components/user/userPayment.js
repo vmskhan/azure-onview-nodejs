@@ -1,6 +1,20 @@
+import { useDispatch, useSelector } from "react-redux";
 import UserHeader from "./UserHeader"
+import { getUserTests } from "../../store/User-actions";
+import { useEffect } from "react";
 
-const userPayment = () => {
+const UserPayment = () => {
+	const testId=localStorage.getItem("currentTest");
+	const test=useSelector(state=>state.user.tests.filter((test)=>test._id===testId)[0]);
+
+	const dispatch=useDispatch();
+	const user=JSON.parse(localStorage.getItem('userInfo'));
+	useEffect(()=>{
+	  if(!test)
+		dispatch(getUserTests(user._id));
+  
+	console.log('fetched');
+  },[]);
     return(
         <div>
             <UserHeader/>
@@ -23,17 +37,17 @@ const userPayment = () => {
                     <div className="col-3">Total Marks</div>
                 </div>
                 <div className="row mt-3 text-b">
-                     <div className="col-3">{/*${test.tname}*/}</div> 
-                    <div className="col-3">{/*${test.start_time}*/}</div>
-                    <div className="col-3">{/*${test.duration}*/}</div>
-                    <div className="col-3">{/*${test.totalMarks}*/}</div>
+                     <div className="col-3">{test.tname}</div> 
+                    <div className="col-3">{test.start_time}</div>
+                    <div className="col-3">{test.duration}</div>
+                    <div className="col-3">{test.totalMarks}</div>
                 </div>
             </div>
             <div className="col-5">
                 <div className="px-2 py-4 shadow text-center rounded">
                     Note : You can attempt this test only one time
                     <div className="mt-3 d-grid">
-                        <button id="rzp-button" className="btn btn-block bg-y text-white">Pay Rs {/*${test.amount} */}</button>
+                        <button id="rzp-button" className="btn btn-block bg-y text-white">Pay Rs {test.amount}</button>
                     </div>
                 </div>
             </div>
@@ -135,4 +149,4 @@ const userPayment = () => {
     )
 }
 
-export default userPayment;
+export default UserPayment;

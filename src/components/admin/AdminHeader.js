@@ -1,11 +1,11 @@
 import "./admin.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { authActions } from "../../store/AuthSlice";
 import { useDispatch } from "react-redux";
 const AdminHeader = () => {
 
   const dispatch=useDispatch();
-
+  const navigate=useNavigate();
   return(
     <nav className="navbar navbar-expand-lg navbar-dark text-l bg-success  px-5">
         <div className="container-fluid">
@@ -40,6 +40,7 @@ const AdminHeader = () => {
                 <button className="btn btn-outline-light btn-sm" onClick={() => {
                   dispatch(authActions.logout())
                   localStorage.removeItem("userInfo");
+                  navigate('/');
                   }
                   }>Logout</button>
             

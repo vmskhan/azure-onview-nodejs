@@ -9,41 +9,56 @@ import { useSelector } from "react-redux";
 import { getTests, getUsers } from "../../store/AdminDashboardActions";
 
 const AdminDashboard = () => {
+  const userList=useSelector(state=>state.adminDashboard.usersList);
   const isLoggedIn=useSelector(state=>state.auth.isLoggedIn);
   const tests = useSelector(state=>state.adminDashboard.tests);
+  const dispatch=useDispatch();
+
   const [tname,setTname]=useState("");
   const [amount,setAmount]=useState(0);
   const [date,setDate]=useState("");
   const [duration,setDuration]=useState(0);
   const [needPayment, setNeedPayment]=useState(false);
   const [start_time,setStart_time]=useState("");
-  const [state,setState]=useState("");
-  const [totalMarks,setTotalMarks]=useState(0);
-  const [pid,setPid]=useState("");
-  const [uid,setUid]=useState("");
-  const [loading,setLoading]=useState(false);
 
-const userList=useSelector(state=>state.adminDashboard.usersList);
-const dispatch=useDispatch();
+  const [loading,setLoading]=useState(false);
+const [pid,setPid]=useState("");
+
   const user=JSON.parse(localStorage.getItem('userInfo'));
   useEffect(()=>{
     console.log(userList);
     console.log("isLoggedIn:"+isLoggedIn);
   },[])
+
+  useEffect(()=>{
+    console.log(tests);
+  },[tests]);  
   
   useEffect(()=>{
-    fetchTests();
+    console.log(userList);
+    if(userList.length!==0)
+      setPid(userList[0]._id)
+  },[userList]);
+
+  useEffect(()=>{
+    if(tests.length===0)
+      fetchTests();
 },[]);
   
 useEffect(()=>{
-  console.log(tests);
-},[tests]);
-  
-useEffect(()=>{
-  fetchUsers();
+  if(userList.length===0)
+    fetchUsers();
 },[]);
   
 
+const fetchUsers=()=>{
+  dispatch(getUsers());
+};
+
+
+const fetchTests=()=>{
+  dispatch(getTests(user._id));
+}
   
   
   const newTestHandler=async(e)=>{
@@ -54,16 +69,14 @@ useEffect(()=>{
             "Content-type": "application/json",
         },  
     };
-    setUid(user._id);
-    // setPid(user._id);
-    setTotalMarks(0);
-    setState('edit');
+
     if(amount>0)
     {
       setNeedPayment(true);
     }
-
-     axios.post("/api/admin/test",{tname,amount,date,duration,needPayment,start_time,state,totalMarks,pid,uid},config)
+  let data={tname,amount,date,duration,needPayment,start_time,pid,uid:user._id}
+  console.log(data);
+     axios.post("/api/admin/test",data,config)
   .then((res)=>res.data)
   .then((data)=>{
   console.log(data);
@@ -75,16 +88,6 @@ useEffect(()=>{
     });
   }
 
-  const fetchUsers=()=>{
-    if(userList.length===0)
-      dispatch(getUsers());
-    };
-  
-
-  const fetchTests=()=>{
-    if(tests.length===0)
-      dispatch(getTests(user._id));
-  }
   
 
     return(

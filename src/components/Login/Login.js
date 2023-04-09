@@ -1,33 +1,43 @@
 import axios from "axios";
-import {useEffect, useRef, useState} from "react";
+import {useEffect, useState} from "react";
 import ErrorMessage from "./ErrorMessage";
 import Loading from "./Loading";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
+
 import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../../store/AuthSlice";
 import { Link } from "react-router-dom";
 
 
-const Login=() => {
+
+const Login=(props) => {
     const [email,setEmail]=useState("");
     const [password,setPassword]=useState("");
     const [loading,setLoading]=useState(false);
     const [error,setError]=useState("");
     const navigate=useNavigate();
     const dispatch=useDispatch();
-    const userInfo=useRef("");
     const isLoggedIn=useSelector(state=>state.auth.isLoggedIn);
 
     useEffect(() => {
-        userInfo.current=localStorage.getItem("userInfo");
-        if(userInfo.current)
+        let userInfo=localStorage.getItem("userInfo");
+        if(userInfo)
             dispatch(authActions.login());
         if(isLoggedIn){
-            if(JSON.parse(userInfo.current).isAdmin)
-                navigate("/admin/adminDashboard",{replace:true});
+            if(JSON.parse(userInfo).isAdmin )
+            {
+                console.log('Admin path');
+                navigate("/admin/adminDashboard");
+            }
             else
-                navigate("/user/userDashboard",{replace:true});
+            {
+                console.log('user path');
+                navigate("/user/userDashboard");
+            }
         }
+        else
+            navigate("/");
+            
         console.log("isLoggedIn:"+isLoggedIn);
         },[isLoggedIn]);
 

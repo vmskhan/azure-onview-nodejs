@@ -1,21 +1,11 @@
-import { useNavigate } from "react-router";
 import "./user.css";
-import { useState,useEffect } from "react";
-import { Link } from "react-router-dom";
-
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { authActions } from "../../store/AuthSlice";
 const UserHeader = () => {
   
-
-  const [logout,setLogout]=useState(false);
-  const navigate=useNavigate();
-  useEffect(()=>{
-    if(logout)
-    {
-    localStorage.removeItem("userInfo");
-    navigate("/");
-    }
-  },[logout])
-
+  const dispatch=useDispatch();
+const navigate=useNavigate();
   return(
       
     <nav className="navbar navbar-expand-lg navbar-dark text-l bg-success  px-5">
@@ -45,7 +35,11 @@ const UserHeader = () => {
               </li>
             </ul>
             
-                <button className="btn btn-outline-light btn-sm" onClick={() => setLogout(true)}>Logout</button>
+                <button className="btn btn-outline-light btn-sm" onClick={() => {
+                   dispatch(authActions.logout())
+                   localStorage.removeItem("userInfo");
+                   navigate('/');
+                }}>Logout</button>
             
           </div>
         </div>

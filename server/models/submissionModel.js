@@ -2,11 +2,6 @@ const mongoose=require('mongoose');
 
 const submissionSchema = mongoose.Schema(
     {
-        
-        qid:{
-            type:mongoose.SchemaTypes.ObjectId,
-            required: true,
-        },
         tid:{
             type:mongoose.SchemaTypes.ObjectId,
             required: true,
@@ -15,21 +10,41 @@ const submissionSchema = mongoose.Schema(
             type:mongoose.SchemaTypes.ObjectId,
             required: true,
         },
-        choice: {
-            type: String,
+        submissions:{
+            type:Array,
             required: true,
-            default: "",
+            default:[{
+                qid:{
+                    type:mongoose.SchemaTypes.ObjectId,
+                    required: true,
+                },
+                choice: {
+                    type: String,
+                    required: true,
+                    default: "",
+                },
+                marks:{
+                    type: Number,
+                    required: true,
+                },
+                rightAnswer:{
+                    type:String,
+                    required:true,
+                    default: "0",
+                },
+                evaluationStatus:{
+                    type:String,
+                    required:true,
+                    default: "0",
+                }
         },
-        marks:{
+    ],
+        },
+        totalMarks:{
             type: Number,
             required: true,
         },
-        rightAnswer:{
-            type:Number,
-            required:true,
-            default: 0,
-        },
-        state:{
+        submissionState:{
             type:String,
             required:true,
         },   

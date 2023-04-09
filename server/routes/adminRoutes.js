@@ -4,6 +4,7 @@ const path=require('path');
 
 const { getQuestions, getQuestionById, createQuestion, updateQuestionById, deleteQuestionById } = require("../controllers/QuestionController");
 const {getTests, createTest, getTestById, updateTestById, deleteTestById} = require('./../controllers/TestController');
+const { getSubmission } = require("../controllers/submissionController");
 
 var upload1 = multer({
     storage:multer.diskStorage({
@@ -57,5 +58,7 @@ router.route('/question/:qid').get(getQuestionById);
 router.route('/question').post(createQuestion);
 router.route('/question').put(updateQuestionById);
 router.route('/question/:qid').delete(deleteQuestionById);
+
+router.route('/submission/:tid').get(getSubmission);
 
 module.exports = router;

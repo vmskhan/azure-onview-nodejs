@@ -3,39 +3,36 @@ import "./user.css"
 import axios from "axios";
 import UserHeader from "./UserHeader";
 import { Navigate, useNavigate } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
+import { createNewEmptySubmission, getUserTests } from "../../store/User-actions";
 
 const StartTest = () => {
-
-    const [test,setTest]=useState({});
-    const [loading,setLoading]=useState(false);
+    const dispatch=useDispatch();
     const testId=localStorage.getItem('currentTest');
+    const user=JSON.parse(localStorage.getItem('userInfo'));
+    const test=useSelector(state=>state.user.tests.filter((test)=>test._id===testId)[0]);
+    const [loading,setLoading]=useState(false);
+
+    
     let navigate=useNavigate();
     useEffect(()=>{
+        if(!test)
         fetchTest();
+        console.log(test);
     },[]);
  
     const fetchTest=async()=>{
-        //fetch tests
-        axios.get('/api/admin/test/'+testId,{
-          method: "GET",
-          // Adding headers to the request
-          headers: {
-              "Content-type": "application/json; charset=UTF-8"
-          }
-        }).then((res) => res.data)
-        .then((data)=> {
-          setTest(data.resData[0]);
-          console.log(data.resData[0]);
-          setLoading(false);
-        })
+        dispatch(getUserTests(user._id));
       }
       const startTestHandler=(link)=>{
         console.log(link);       
        navigate('/user/testPage');
-        
+       dispatch(createNewEmptySubmission(testId,user._id));     
       }
 
-    return(
+    return(<>
+        {test &&
+            <>
         <div>
         <UserHeader/>
     <div className="container-fluid px-5">
@@ -80,7 +77,10 @@ const StartTest = () => {
 
    
         </div>
-    )
+        </>
+}
+</>
+    );
 }
 
 export default StartTest;

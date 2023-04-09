@@ -31,7 +31,7 @@ const getTestById=asyncHandler(async(req,res) => {
 });
 const createTest=asyncHandler(async(req,res) => {
     console.log('admin create tests method called');
-    const {tname,amount,date,duration,needPayment,start_time,state,totalMarks,pid,uid} =req.body;
+    const {tname,amount,date,duration,needPayment,start_time,pid,uid} =req.body;
     const testExists= await Test.findOne({'tname':req.body.uid});
     if(testExists){
         res.status(400);
@@ -39,7 +39,7 @@ const createTest=asyncHandler(async(req,res) => {
     }
     console.log("test doenst exist already");
     const newTest=await Test.create({
-        tname,amount,date,duration,needPayment,start_time,state,totalMarks,pid,uid
+        tname,amount,date,duration,needPayment,start_time,state:'edit',totalMarks:0,pid,uid
     });
     console.log('test created')
     if(newTest){
