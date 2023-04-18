@@ -1,20 +1,17 @@
 import React, { useEffect } from "react";
-// import logo from './logo.svg';
+import { Route, Routes } from "react-router";
+import { BrowserRouter } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { authActions } from "./store/AuthSlice";
+
 import './App.css';
 
 
 import Login from "./components/Login/Login";
 import RegisterUser from "./components/Register/RegisterUser";
 import RegisterAdmin from "./components/Register/RegisterAdmin";
-import { Route, Routes } from "react-router";
-import { BrowserRouter } from "react-router-dom";
-import AdminDashboard from "./components/admin/AdminDashboard";
-import AdminHistory from "./components/admin/AdminHistory";
-import AdminEvaluation from "./components/admin/adminEvaluation";
-import AdminEvaluateAnswer from "./components/admin/adminEvaluateAnswer";
-import AdminMeet from "./components/admin/AdminMeet";
 
-import AdminResult from "./components/admin/AdminResult";
+
 import UserDashBoard from "./components/user/UserDashboard";
 import UserHistory from "./components/user/UserHistory";
 import UserResult from "./components/user/UserResult";
@@ -22,9 +19,14 @@ import UserPayment from "./components/user/UserPayment";
 import StartTest from "./components/user/StartTest";
 import TestPage from "./components/user/TestPage";
 
-import AdminQuestion from "./components/AdminQuestionComp/AdminQuestion";
-import { useDispatch, useSelector } from "react-redux";
-import { authActions } from "./store/AuthSlice";
+
+import AdminDashboard from "./pages/admin/Dashboard";
+import PendingTests from "./pages/admin/PendingTests";
+import CompletedTests from "./pages/admin/CompletedTests";
+import InterviewControls from "./pages/admin/InterviewControls";
+import AdminInterviewResults from "./pages/admin/InterviewResults";
+import Meeting from "./pages/admin/Meeting";
+import SubmissionEvaluation from "./pages/admin/SubmissionEvaluation";
 
 
 const App = () => {
@@ -47,12 +49,12 @@ const App = () => {
       <>
      
       <Route path ="/admin/adminDashboard" element={<AdminDashboard/>} exact/>
-      <Route path ="/admin/adminHistory" element={<AdminHistory/>} exact/>
-      <Route path ="/admin/adminEvaluation" element={<AdminEvaluation/>} exact/>
-      <Route path ="/admin/adminEvaluateAnswer" element={<AdminEvaluateAnswer/>} exact/>
-      <Route path ="/admin/adminMeet" element={<AdminMeet/>} exact/>
-      <Route path ="/admin/adminQuestion" element={<AdminQuestion/>} exact/>
-      <Route path ="/admin/adminResult" element={<AdminResult/>} exact/>
+      <Route path ="/admin/adminHistory" element={<CompletedTests/>} exact/>
+      <Route path ="/admin/adminEvaluation" element={<PendingTests/>} exact/>
+      <Route path ="/admin/adminEvaluateAnswer" element={<SubmissionEvaluation/>} exact/>
+      <Route path ="/admin/adminMeet" element={<Meeting/>} exact/>
+      <Route path ="/admin/adminQuestion" element={<InterviewControls/>} exact/>
+      <Route path ="/admin/adminResult" element={<AdminInterviewResults/>} exact/>
     
       <Route path ="/user/userDashboard" element={<UserDashBoard/>} exact/>
       <Route path ="/user/userHistory" element={<UserHistory/>} exact/>

@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import TestComp from "../test/TestComp";
-import AdminHeader from "./AdminHeader";
 import { useDispatch, useSelector } from "react-redux";
 import { getTests } from "../../store/AdminDashboardActions";
 
@@ -28,9 +27,6 @@ const fetchTests=()=>{
 }
 
   return(
-        <div>
-            <AdminHeader/>
-
 <div className="container-fluid mb-5">
 
     <div className="row mt-4 px-5">
@@ -61,8 +57,7 @@ const fetchTests=()=>{
     </div>
 
         </div>
-</div>
-    )
+    );
 }
 
 export default AdminEvaluation;

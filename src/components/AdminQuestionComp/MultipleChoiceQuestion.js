@@ -12,6 +12,24 @@ const MultipleChoiceQuestion=(props)=>{
     const [optionListTypeA,setOptionListTypeA]=useState([{hasText:true,hasImage:false,text:" ",isSelected:false}]);
     const [questionText,setQuestionText]=useState("");
     const [marks,setMarks]=useState(0);
+    const [questionImage,setQuestionImage]=useState({preview:'',data:''});
+    
+    
+
+    const imageHandler=(e)=>{
+      let data={
+        preview:URL.createObjectURL(e.target.files[0]),
+        data:e.target.files[0],
+      }
+      setQuestionImage(data);
+    }
+
+    const questionProps={
+      'setQuestionText':setQuestionText,
+      'questionText':questionText,
+       'questionImage':questionImage ,
+       'imageHandler':imageHandler
+      };
 
     useEffect(()=>{
       if(props.question!==null && props.mode==='edit')
@@ -26,14 +44,15 @@ const MultipleChoiceQuestion=(props)=>{
         setOptionListTypeA([{hasText:true,hasImage:false,text:" ",isSelected:false}]);
         setMarks(0);
       }
-    },[props.question])
+    },[props.question]);
+
     const addOption=()=>{
           setOptionListTypeA(optionListTypeA.concat({hasText:true,hasImage:false,text:" ",isSelected:false}));
         }
+
         const toggleText=(index)=>{
           let temp=optionListTypeA.map(option=>({...option}));
           temp[index].hasText=!temp[index].hasText;
-          console.log(temp);
           setOptionListTypeA(temp);
         }
       
@@ -46,8 +65,6 @@ const MultipleChoiceQuestion=(props)=>{
       const changeOptionText=(index,value)=>{
         let temp=optionListTypeA.map(option=>({...option}));
         temp[index].text=value;
-        //console.log("option reached");
-        //console.log(temp);
         setOptionListTypeA(temp);
       }
 
@@ -60,9 +77,9 @@ const MultipleChoiceQuestion=(props)=>{
         let temp=optionListTypeA.map(option=>({...option}));
         temp.forEach((element)=>{
           if(element.text===value)
-          element.isSelected=true;
+            element.isSelected=true;
           else
-          element.isSelected=false;
+            element.isSelected=false;
         })
         setOptionListTypeA(temp);
       }
@@ -106,7 +123,7 @@ const MultipleChoiceQuestion=(props)=>{
       return(
         <div>
 
-                    <QuestionSection setQuestionText={setQuestionText} questionText={questionText}/>
+                    <QuestionSection {...questionProps} />
                     <div>
                       
 

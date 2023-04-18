@@ -1,4 +1,3 @@
-import AdminHeader from "./AdminHeader";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import TestComp from "../test/TestComp";
@@ -91,8 +90,7 @@ const fetchTests=()=>{
   
 
     return(
-<div>
-<AdminHeader/>
+
 <div className="container-fluid mb-5">
 
     <div className="row mt-4 px-5">
@@ -190,7 +188,6 @@ const fetchTests=()=>{
           </form>
     </div>
   </div>
-</div>
 </div>
 
     );

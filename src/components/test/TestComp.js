@@ -1,22 +1,37 @@
 import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { adminDashboardActions } from "../../store/AdminDashboardSlice";
+import { deleteTestWithTid } from "../../store/AdminDashboardActions";
 
 const TestComp= (props) => {
-    useEffect(()=>{
+    
+  const dispatch=useDispatch();
+  useEffect(()=>{
         console.log(props.testobj);
     },[])
   const handleClickTest=()=>{
       localStorage.setItem('currentTest',props.testobj._id);
   }    
+  const deleteTestHandler=()=>{
+    const user=JSON.parse(localStorage.getItem('userInfo'));
+    dispatch(deleteTestWithTid(user._id,props.testobj._id));
+  }
+
     return(
         <div className="col-4 mt-4" key={props.index}>
             <div className="shadow">
               <div className="card-header text-img text-d" style={{height: '120px'}}>
-               <Link to={props.titleUrl} onClick={handleClickTest} className="decor-none" >
-                  <h4>{props.testobj.tname}</h4> 
-               </Link>
+                <div className="d-flex justify-content-between">
+                    <Link to={props.titleUrl} onClick={handleClickTest} className="decor-none" >
+                        <h4>{props.testobj.tname}</h4> 
+                    </Link>
+                    {props.testobj.state==='end' &&
+                    <button className="btn" onClick={deleteTestHandler}><i class="bi bi-x-circle-fill"></i></button>
+                    }
+                </div>
               </div>
-              <div className="px-3 py-2">
+              <div className="px-3 py-2 text-light bg-dark">
                 <div className="d-flex justify-content-between">
                   <div>
                      <small>Date : <strong>{props.testobj.date}</strong></small>

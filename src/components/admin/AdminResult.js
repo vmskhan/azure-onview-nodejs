@@ -1,5 +1,4 @@
 import { useDispatch, useSelector } from "react-redux";
-import AdminHeader from "./AdminHeader"
 import { Link } from "react-router-dom";
 import { useEffect } from "react";
 import { getUserTests } from "../../store/User-actions";
@@ -32,9 +31,6 @@ useEffect(()=>{
         <div>
           {test && 
           <>
-            <AdminHeader/>
-           
-
     <div className="container-fluid">
       <div className="px-5 mt-4">
         <nav aria-label="breadcrumb">

@@ -73,7 +73,7 @@ const deleteTestById=asyncHandler(async(req,res) => {
     //const {tname,amount,date,duration,needPayment,start_time,state,totalMarks,pid,uid} =req.body;
     //const testExists= await Test.findOne({'tname':req.body.uid});
     
-    co//nsole.log("test doenst exist already");
+    //console.log("test doenst exist already");
     await Test.findByIdAndDelete(req.params.tid);
     // console.log('test created')
     // if(newTest){

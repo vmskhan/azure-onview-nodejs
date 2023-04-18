@@ -1,11 +1,8 @@
 import { Link } from "react-router-dom";
 
-const { default: AdminHeader } = require("./AdminHeader")
-
 const AdminEvaluateAnswer = () => {
     return(
         <div>
-            <AdminHeader/>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <div className="container-fluid">      
         <div className="px-5 mt-4">

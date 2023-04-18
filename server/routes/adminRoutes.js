@@ -51,7 +51,7 @@ router.route('/tests/:uid').get(getTests);
 router.route('/test/:tid').get(getTestById);
 router.route('/test').post(createTest);
 router.route('/test').put(updateTestById);
-router.route('/test').delete(deleteTestById);
+router.route('/test/:tid').delete(deleteTestById);
 
 router.route('/questions/:tid').get(getQuestions);
 router.route('/question/:qid').get(getQuestionById);

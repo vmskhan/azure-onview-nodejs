@@ -162,3 +162,20 @@ export const getSubmissionForTid=(tid)=>{
     await fetchHandler();
   }
 }
+
+export const deleteTestWithTid=(uid,tid)=>{
+  return async(dispatch)=>{
+    const fetchHandler=async()=>{
+      axios.delete('/api/admin/test/'+tid)
+      .then((res)=>res.data)
+      .then((data)=>{
+        console.log(data);
+        dispatch(getTests(uid));
+      })
+      .catch((error)=>{
+        console.log(error);
+      });
+    }
+    await fetchHandler();
+  }
+}

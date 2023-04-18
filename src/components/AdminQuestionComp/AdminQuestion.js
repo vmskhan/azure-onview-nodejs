@@ -8,11 +8,10 @@ import { Offcanvas } from "bootstrap";
 
 import { useRef } from "react";
 import AdminDynamicComponent, { adminQuestionComponents } from "../data/AdminDynamicComponent";
-const { default: AdminHeader } = require("../admin/AdminHeader")
 
 const AdminQuestion = () => {
 
-  
+  const baseUrl='/images/uploads/'
 const testId=localStorage.getItem('currentTest');  
 const test=useSelector(state=>state.adminDashboard.tests.filter((test)=>test._id===testId)[0]);
 const usersList=useSelector(state=>state.adminDashboard.usersList);
@@ -107,15 +106,12 @@ const ChangeParticipantHandler=()=>
   return(
     <>
     {test &&
-        <div>
-  <AdminHeader/>
-
     <div className="container-fluid">      
         <div className="px-5 mt-4">
           <nav aria-label="breadcrumb">
             <ol className="breadcrumb">
-              <li className="breadcrumb-item "><Link to="/admin/adminDashboard" className="decor-none">Dashboard</Link></li>
-              <li className="breadcrumb-item active" aria-current="page">Interview</li>
+              <li className="breadcrumb-item "><Link to="/admin/adminDashboard" className="decor-none text-info">Dashboard</Link></li>
+              <li className="breadcrumb-item active text-info" aria-current="page">Interview</li>
             </ol>
           </nav>
         </div>
@@ -123,13 +119,13 @@ const ChangeParticipantHandler=()=>
             <div className="col-12">
                 <div className="d-flex justify-content-between">
                   <div>
-                     <div className="h5 text-b">Interview : <span className="text-primary">{test.tname}</span></div> 
-                    <small className="text-secondary">Create and edit questions for the Interview</small>
+                     <div className="h5 text-info">Interview : <span className="text-warning">{test.tname}</span></div> 
+                    <small className="text-light">Create and edit questions for the Interview</small>
                   </div>
                   <div className="col-4">
                   {test.state === 'edit' &&
-                    <div className="input-group mb-3">
-                    <span className="input-group-text text-b">Participant </span>
+                    <div className="input-group mb-3 text-info">
+                    <span className="input-group-text text-d">Participant </span>
                     
                       <select className="form-select" name="pid" value={pid} onChange={(e) => setPid(e.target.value)}>
                     { usersList.map((user)=>{
@@ -143,7 +139,7 @@ const ChangeParticipantHandler=()=>
                     </div>
                    }
                    { test.state!=='edit' && 
-                    <span className="h5 text-b">Participant: {usersList.filter((user)=>user._id===pid)[0]!==undefined && usersList.filter((user)=>user._id===pid)[0].name}</span>
+                    <span className="h5 text-info">Participant: {usersList.filter((user)=>user._id===pid)[0]!==undefined && usersList.filter((user)=>user._id===pid)[0].name}</span>
                    } 
                   </div>
                     {test.state === 'edit' &&
@@ -166,7 +162,7 @@ const ChangeParticipantHandler=()=>
         <div className="row mt-5 px-5">
             <div className="col-12">
                 <div className="d-flex justify-content-between">
-                    <div className="h5 text-b">Questions</div>
+                    <div className="h5 text-info">Questions</div>
                     {test.state === 'edit' &&
                       <div><button className="btn text-white bg-success btn-sm" data-bs-toggle="offcanvas" data-bs-target="#newQuestionOffCanvas" aria-controls="offcanvasRight" onClick={newQuestionHandler}> <i className="fas fa-plus"></i> Add Question</button></div>
                     }
@@ -176,7 +172,7 @@ const ChangeParticipantHandler=()=>
 
         <div className="row px-5">
             <div className="col-12">
-                <table className="table table-striped">
+                <table className="table table-dark table-striped">
                     <thead >
                       <tr >
                         <th scope="col" >S.No</th>
@@ -196,8 +192,8 @@ const ChangeParticipantHandler=()=>
                           </td>
                           <td>{question.questionText}</td>
                           <td>
-                            {question.questionImage!=null ?
-                            (<img className="w-75" src="/img/qs${q.qid}.jpg"/>):(<p>No Image</p>)
+                            {question.questionImage!=='Nil' ?
+                            (<img className="w-75" src={baseUrl+question.questionImage}/>):(<p>No Image</p>)
                               }
                           </td>
                            <td>{question.marks}</td>
@@ -225,8 +221,6 @@ const ChangeParticipantHandler=()=>
           </div>
           
     </div>
-      
-        </div>
             }
             </>
     );

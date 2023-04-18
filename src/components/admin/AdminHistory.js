@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import TestComp from "../test/TestComp";
 import { useSelector,useDispatch } from "react-redux";
 import { getTests } from "../../store/AdminDashboardActions";
-const { default: AdminHeader } = require("./AdminHeader")
 
 const AdminHistory = () => {
   const tests=useSelector(state=>state.adminDashboard.tests);
@@ -29,8 +28,6 @@ const fetchTests=()=>{
 
 
   return(
-    <div>
-    <AdminHeader/>
     <div className="container-fluid mb-5">
 
         <div className="row mt-4 px-5">
@@ -59,9 +56,7 @@ const fetchTests=()=>{
           }
         </div>
     </div> 
-
-</div>
-    )
+    );
 }
 
 export default AdminHistory;

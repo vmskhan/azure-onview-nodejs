@@ -16,7 +16,7 @@ connectDB();
 //require('./config/mongodbConnect').connect();
 app.use(express.json());
 app.use(morgan('dev'));
-app.use("/upload",express.static("./../uploads"));
+app.use("/images",express.static(path.join(__dirname,"./storage/images")));
 
 app.use(express.static(path.resolve(__dirname,'../build')));
 

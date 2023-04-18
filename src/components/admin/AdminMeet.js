@@ -1,9 +1,9 @@
-const { default: AdminHeader } = require("./AdminHeader")
+
 
 const AdminMeet = () => {
     return(
      <div>
-        <AdminHeader/>
+        
     
     <div id="meetingSDKElement">
         {/* <!-- Zoom Meeting SDK Rendered Here --> */}
