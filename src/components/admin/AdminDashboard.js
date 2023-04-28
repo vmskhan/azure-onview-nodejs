@@ -1,10 +1,8 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import proxyAxios from "../../axiosMiddleware";
 import TestComp from "../test/TestComp";
 import Loading from "../Login/Loading";
-import { useDispatch } from "react-redux";
-import { adminDashboardActions } from "../../store/AdminDashboardSlice";
-import { useSelector } from "react-redux";
+import { useDispatch,useSelector } from "react-redux";
 import { getTests, getUsers } from "../../store/AdminDashboardActions";
 
 const AdminDashboard = () => {
@@ -75,7 +73,7 @@ const fetchTests=()=>{
     }
   let data={tname,amount,date,duration,needPayment,start_time,pid,uid:user._id}
   console.log(data);
-     axios.post("/api/admin/test",data,config)
+     proxyAxios.post("/api/admin/test",data,config)
   .then((res)=>res.data)
   .then((data)=>{
   console.log(data);
@@ -91,19 +89,19 @@ const fetchTests=()=>{
 
     return(
 
-<div className="container-fluid mb-5">
+<div className="container-fluid col-12 bg-none mx-auto">
 
-    <div className="row mt-4 px-5">
+    <div className="row px-5">
       <div className="col-12">
-          <div className="h5 text-b">My Interview</div>
-          <small className="text-secondary">List of all my interviews</small>
+          <div className="h5 text-light">My Interview</div>
+          <small className="text-light">List of all my interviews</small>
       </div>
     </div>
 
     <div className="row mt-3 px-5">
         <div className="col-12">
             <div className="d-flex justify-content-between">
-                <div className="h5 text-b">Current Interview</div>
+                <div className="h5 text-white">Current Interview</div>
                 <div>
                   <button className="btn bg-r text-white btn-sm" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
                     <i className="fas fa-plus"></i> Create Interview

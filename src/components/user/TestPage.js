@@ -1,18 +1,15 @@
 import { useEffect, useState } from "react";
-import TestHeader from "./TestHeader";
-import axios from "axios";
 import "./user.css";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { endSubmission, getQuestionsUser, updateSubmission } from "../../store/User-actions";
 import { useNavigate } from "react-router";
-import AdminDynamicComponent from "../data/AdminDynamicComponent";
 import UserDynamicComponent from "../data/UserDynamicComponent";
 
 const TestPage =() =>{
   const questions=useSelector(state=>state.user.questions);
   const dispatch=useDispatch();
-  
+  const baseUrl=process.env.REACT_APP_IMAGE_UPLOADS_BASE_URL;
   const [index,setIndex]=useState(0);
   const [questionType,setQuestionType]=useState('Objective Type-A');
   
@@ -74,29 +71,30 @@ const endTestHandler=()=>{
     <>
     {questions &&
         <div>
-          <TestHeader/>
-    <div className="container-fluid">
+    <div className="container-fluid text-light">
         <div className="row mt-5 px-5">
           <div className="col-12">
-            <div className="card w-100 px-2 py-3 border-success border-5 overflow-auto" style={{height:'100vh'}}>
+            <div className="card w-100 px-2 py-3 border-0 bg-transparent overflow-auto" style={{height:'100vh'}}>
               <div className="row">
 {/* <!-- zoom --> */}
-                <div className="col-6 border-end border-dark" id="meetingSDKElement">
+                <div className="col-6" id="meetingSDKElement">
 
                 </div>
 
-                <div className="col-6">
+                <div className="col-6 border border-1 border-light">
+                <div className="">
                 {/* {getdynamo()} */}
                  {questions.length>0  &&
-                 <UserDynamicComponent questionType={questionType} question={questions[index]} answer={answer} setAnswer={setAnswer} />}
+                 <UserDynamicComponent question={questions[index]} answer={answer} setAnswer={setAnswer} />}
                     
                 {index<questions.length-1?(
-                    <button className="btn btn-primary btn-sm mt-5 px-5" role="button" onClick={submissionHandler}>Next</button>
+                    <button className="col-12 btn btn-primary btn-sm mt-5 px-5" role="button" onClick={submissionHandler}>Next</button>
                 ):(
-                  <button className="btn btn-primary btn-sm mt-5 px-5" role="button" onClick={endTestHandler}>End</button>
+                  <button className="col-12 btn btn-primary btn-sm mt-5 px-5" role="button" onClick={endTestHandler}>End</button>
                 )
                     }
-                  
+                    <br/><br/>
+                  </div>
                 </div>
 
 

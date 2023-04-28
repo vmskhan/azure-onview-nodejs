@@ -1,6 +1,5 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import OffcanvasHeader from "./OffcanvasHeader";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { deleteQuestionWithGivenQid, getQuestions, getTests, getUsers, updateTest } from "../../store/AdminDashboardActions";
@@ -8,10 +7,17 @@ import { Offcanvas } from "bootstrap";
 
 import { useRef } from "react";
 import AdminDynamicComponent, { adminQuestionComponents } from "../data/AdminDynamicComponent";
+import QuestionSection from "./QuestionSection";
+import MarksSection from "./MarksSection";
+
+import { adminDashboardActions } from "../../store/AdminDashboardSlice";
+import { sendNewQuestion, updateQuestion } from "../../store/AdminDashboardActions";
+import ModalHeader from "./ModalHeader";
+import QuestionNavigator from "./QuestionNavigator";
 
 const AdminQuestion = () => {
 
-  const baseUrl='/images/uploads/'
+  const baseUrl=process.env.REACT_APP_IMAGE_UPLOADS_BASE_URL;
 const testId=localStorage.getItem('currentTest');  
 const test=useSelector(state=>state.adminDashboard.tests.filter((test)=>test._id===testId)[0]);
 const usersList=useSelector(state=>state.adminDashboard.usersList);
@@ -27,6 +33,13 @@ const [pid,setPid]=useState(undefined);
 const [currentQuestion,setCurrentQuestion]=useState(null);
 const user=JSON.parse(localStorage.getItem('userInfo'));
 const questionRef=useRef(null);
+// const [question,setQuestion]=useState({});
+const [marks,setMarks]=useState(0);
+const [dynamicComponentData,setDynamicComponentData]=useState({options:{},answer:{}});
+
+// useEffect(()=>{
+//   console.log(currentQuestion);
+// },[currentQuestion]);
 
 useEffect(()=>{
   if(!test)
@@ -36,11 +49,11 @@ useEffect(()=>{
 },[usersList])
 
 useEffect(()=>{
-console.log('Test:');
-console.log(test);
+// console.log('Test:');
+// console.log(test);
 if(test)
 {
-  console.log(test.pid)
+  // console.log(test.pid)
   setPid(test.pid);
 }
 },[test])
@@ -53,10 +66,14 @@ useEffect(()=>{
   fetchQuestions();
 },[])
 
-useEffect(()=>{
-  console.log('Questions:');
-  console.log(questions);
-},[questions])
+// useEffect(()=>{
+//   console.log('Questions:');
+//   console.log(questions);
+// },[questions])
+
+// useEffect(()=>{
+// console.log(dynamicComponentData);
+// },[dynamicComponentData])
 
 const fetchTest=()=>{
     dispatch(getTests(user._id))
@@ -99,9 +116,42 @@ const newQuestionHandler=()=>{
 const ChangeParticipantHandler=()=>
 {
   let newTest=Object.assign({},test,{pid});
-  console.log(newTest);
+  // console.log(newTest);
   dispatch(updateTest(newTest)); 
 }
+
+  const saveQuestionHandler=()=>{
+    const data={
+      question:currentQuestion.question,
+      options:dynamicComponentData.options,
+      answer:dynamicComponentData.answer,
+      marks,
+      tid:testId,
+    }
+    // console.log(data);
+    // console.log(currentQuestion)
+    if(mode && mode==='new')
+      dispatch(sendNewQuestion(data));
+    else if(mode && mode==='edit')
+    {
+    console.log("edit question data")
+    data._id=currentQuestion._id;  
+    console.log(data);
+      dispatch(updateQuestion(data));
+    }
+  }
+ 
+  const questionProps={
+    'setQuestionObj':setCurrentQuestion,
+    'questionObj':currentQuestion,
+    'questionType':questionType
+    };
+  const dynamicComponentProps={
+    'dynamicComponentData':dynamicComponentData,
+    'setDynamicComponentData':setDynamicComponentData,
+    'mode':mode,
+    'questionType':questionType
+  };
 
   return(
     <>
@@ -111,7 +161,7 @@ const ChangeParticipantHandler=()=>
           <nav aria-label="breadcrumb">
             <ol className="breadcrumb">
               <li className="breadcrumb-item "><Link to="/admin/adminDashboard" className="decor-none text-info">Dashboard</Link></li>
-              <li className="breadcrumb-item active text-info" aria-current="page">Interview</li>
+              <li className="breadcrumb-item active text-light" aria-current="page">Interview</li>
             </ol>
           </nav>
         </div>
@@ -119,7 +169,7 @@ const ChangeParticipantHandler=()=>
             <div className="col-12">
                 <div className="d-flex justify-content-between">
                   <div>
-                     <div className="h5 text-info">Interview : <span className="text-warning">{test.tname}</span></div> 
+                     <div className="h5 text-light">Interview : <span className="text-warning">{test.tname}</span></div> 
                     <small className="text-light">Create and edit questions for the Interview</small>
                   </div>
                   <div className="col-4">
@@ -135,21 +185,21 @@ const ChangeParticipantHandler=()=>
                     })
                     }
                     </select>
-                    <button class="btn btn-outline-success" type="button" onClick={ChangeParticipantHandler}>Change</button>
+                    <button className="btn btn-outline-success text-white" type="button" onClick={ChangeParticipantHandler}>Change</button>
                     </div>
                    }
                    { test.state!=='edit' && 
-                    <span className="h5 text-info">Participant: {usersList.filter((user)=>user._id===pid)[0]!==undefined && usersList.filter((user)=>user._id===pid)[0].name}</span>
+                    <span className="h5 text-light">Participant: {usersList.filter((user)=>user._id===pid)[0]!==undefined && usersList.filter((user)=>user._id===pid)[0].name}</span>
                    } 
                   </div>
                     {test.state === 'edit' &&
                       <div>                         
-                          <button className="btn bg-r text-white btn-sm" onClick={(e)=>changeTestState('start')}><i className="fab fa-cloudscale"></i> Start Interview</button>
+                          <button className="btn bg-r text-white btn-sm" onClick={(e)=>changeTestState('start')}><i className="bi bi-play-circle"></i> Start Interview</button>
                       </div>
                     }
                     {test.state === 'start' &&
                       <div>
-                          <button className="btn bg-r text-white  btn-sm" onClick={(e)=>changeTestState('end')}><i className="fab fa-cloudscale"></i> End Interview</button>
+                          <button className="btn bg-r text-white  btn-sm" onClick={(e)=>changeTestState('end')}><i className="bi bi-box-arrow-left"></i> End Interview</button>
                         <Link to="/admin/startMeet">
                           <button className="btn bg-info text-white  btn-sm"><i className="far fa-handshake"></i> Start Zoom Meeting</button>
                         </Link>
@@ -162,9 +212,9 @@ const ChangeParticipantHandler=()=>
         <div className="row mt-5 px-5">
             <div className="col-12">
                 <div className="d-flex justify-content-between">
-                    <div className="h5 text-info">Questions</div>
+                    <div className="h5 text-light">Questions</div>
                     {test.state === 'edit' &&
-                      <div><button className="btn text-white bg-success btn-sm" data-bs-toggle="offcanvas" data-bs-target="#newQuestionOffCanvas" aria-controls="offcanvasRight" onClick={newQuestionHandler}> <i className="fas fa-plus"></i> Add Question</button></div>
+                      <div><button className="btn text-white bg-success btn-sm" data-bs-toggle="modal" data-bs-target="#QuestionModal" aria-controls="offcanvasRight" onClick={newQuestionHandler}> <i className="bi bi-plus-circle"></i> Add Question</button></div>
                     }
                 </div>
             </div>
@@ -190,10 +240,10 @@ const ChangeParticipantHandler=()=>
                           <td scope="row">
                             {index+1}
                           </td>
-                          <td>{question.questionText}</td>
+                          <td>{question.question.text}</td>
                           <td>
-                            {question.questionImage!=='Nil' ?
-                            (<img className="w-75" src={baseUrl+question.questionImage}/>):(<p>No Image</p>)
+                            {question.question.hasImage ?
+                            (<img className="w-75" src={baseUrl+question.question.image}/>):(<p>No Image</p>)
                               }
                           </td>
                            <td>{question.marks}</td>
@@ -213,13 +263,26 @@ const ChangeParticipantHandler=()=>
             </div>
         </div>
 
-        <div className="offcanvas offcanvas-end overflow-scroll" tabIndex="-1" id="newQuestionOffCanvas" aria-labelledby="offcanvasRightLabel" ref={questionRef}>
-            <OffcanvasHeader title={questionType} qtypes={Object.keys(adminQuestionComponents)} setQuestionType={setQuestionType}/>
-            <div className="offcanvas-body">
-              <AdminDynamicComponent questionType={questionType} question={currentQuestion} mode={mode}/>
-            </div>
-          </div>
           
+
+{/* <!-- Modal --> */}
+<div className="modal fade" id="QuestionModal" tabIndex="-1" aria-labelledby="QuestionModal" aria-hidden="true">
+  <div className="modal-dialog">
+    <div className="modal-content">
+      <ModalHeader title={questionType}/>
+      <div className="modal-body">
+        <QuestionNavigator qtypes={Object.keys(adminQuestionComponents)} setQuestionType={setQuestionType}/>
+        <QuestionSection {...questionProps} />
+        <AdminDynamicComponent {...dynamicComponentProps}/>
+        <MarksSection marks={marks} setMarks={setMarks}/>    
+      </div>
+      <div className="modal-footer">
+        <button type="button" className="btn btn-secondary btn-sm col-4" data-bs-dismiss="modal">Close</button>
+        <button type="button" className="btn btn-success text-light btn-sm px-5 col-4" onClick={saveQuestionHandler} ><i className="fas fa-save"></i> Save</button>   
+      </div>
+    </div>
+  </div>
+</div>
     </div>
             }
             </>

@@ -1,6 +1,7 @@
 const MultipleSelectQuestion=(props)=>{
-
+  const baseUrl=process.env.REACT_APP_IMAGE_UPLOADS_BASE_URL;
   const MultipleAnswerHandler=(e)=>{
+   
     let temp=props.answer;
     if(temp.includes(e.target.value))
       {
@@ -15,37 +16,38 @@ const MultipleSelectQuestion=(props)=>{
   }
     return(
         <div>
-             <div className="">
+             <div className="text-light">
                     <div className="d-flex justify-content-between">
-                       <div className="h5 text-b">Question {props.question.idx}</div> 
+                       <div className="h5">Question {props.question.idx}</div> 
                       <p>Mark : <strong>{props.question.marks}</strong></p>
                     </div>
                     <div className="mt-2">
-                      <p>{props.question.questionText}</p>
+                      {props.question.question.hasText&&
+                      <p>{props.question.question.text}</p>
+                      }
                     </div>
                     
                     <div className="mt-2">
-                      { props.question.questionImage!=null &&
-                      <img className="w-50" src="/img/qs${question.qid}.jpg"/>
+                      { props.question.question.hasImage &&
+                      <img className="img-fluid" src={baseUrl+props.question.question.image}/>
                     }
                     </div>
                   
                   </div>
-
-                  <div className="">
+                    
+                  <div className="mt-3">
                     <div className="d-flex justify-content-between">
-                      <div className="h5 text-b">Options</div>
+                      <div className="h5 mb-3">Options</div>
                     </div>
-                    
-                    
-                      {/* <form className="mt-2" method="POST" action="/user/test/${tid}/qn" > */}
                         {props.question.options.map((option,index)=>{
-                          return(<div className="card px-2 py-2 mb-2">
+                          return(<div className="card px-2 py-2 mb-2 bg-transparent border-light">
                             <div className="form-check">
                               <input className="form-check-input" type="checkbox"  id={index+1} value={option.text} onChange={(e)=>MultipleAnswerHandler(e)} name="answerText" />
+                              { option.hasText &&
                               <label className="form-check-label mb-2" htmlFor={index+1}>{option.text}</label>
+                              }
                               {option.hasImage &&    
-                              <img className="w-100" src="/img/os${option.oid}.jpg"/> 
+                              <img className="w-100" src={baseUrl+option.image} /> 
                              }
                             </div>
                           </div>);

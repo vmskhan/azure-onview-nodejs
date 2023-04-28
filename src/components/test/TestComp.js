@@ -20,7 +20,7 @@ const TestComp= (props) => {
 
     return(
         <div className="col-4 mt-4" key={props.index}>
-            <div className="shadow">
+            <div className="shadow-lg">
               <div className="card-header text-img text-d" style={{height: '120px'}}>
                 <div className="d-flex justify-content-between">
                     <Link to={props.titleUrl} onClick={handleClickTest} className="decor-none" >

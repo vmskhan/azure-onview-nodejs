@@ -1,10 +1,10 @@
 import { userActions } from "./UserSlice";
-import axios from "axios";
+import proxyAxios from "../axiosMiddleware";
 
 export const getQuestionsUser=(testId)=>{
     return async(dispatch)=>{
         const fetchHandler=async()=>{
-            axios.get('/api/users/questions/'+testId)
+            proxyAxios.get('/api/users/questions/'+testId)
             .then((res) => res.data)
               .then((data)=> {
                  dispatch(userActions.updateQuestions(data.resData));
@@ -22,13 +22,13 @@ export const getQuestionsUser=(testId)=>{
 export const getUserTests=(userId)=>{
   return async(dispatch)=>{
       const fetchHandler=async()=>{
-        fetch('/api/users/tests/'+userId,{
+        proxyAxios.get('/api/users/tests/'+userId,{
 
           method: "GET",
           headers: {
               "Content-type": "application/json; charset=UTF-8"
           }
-      }).then((res) => res.json())
+      }).then((res) => res.data)
         .then((data)=> {
            dispatch(userActions.updateTests(data.resData));
            console.log(data.resData);
@@ -41,7 +41,7 @@ export const getUserTests=(userId)=>{
 export const createNewEmptySubmission=(tid,uid)=>{
   return async(dispatch)=>{
     const fetchHandler=async()=>{
-      axios.post('/api/users/submission',{tid,uid})
+      proxyAxios.post('/api/users/submission',{tid,uid})
       .then((res) => res.data)
         .then((data)=> {
            //dispatch(userActions.updateQuestions(data.resData));
@@ -60,7 +60,7 @@ export const updateSubmission=(data)=>{
   return async(dispatch)=>{
     const fetchHandler=async()=>{
       const {uid,question,choice}=data
-      axios.put('/api/users/submission',{
+      proxyAxios.put('/api/users/submission',{
         'tid':question.tid,uid,'qid':question._id,choice,'questionMarks':question.marks,rightAnswer:question.answerText,questionFormat:question.questionFormat
       })
       .then((res) => res.data)
@@ -80,7 +80,7 @@ export const endSubmission=(data)=>{
   return async(dispatch)=>{
     const fetchHandler=async()=>{
       const {tid,uid}=data
-      axios.patch('/api/users/submission/state',{
+      proxyAxios.patch('/api/users/submission/state',{
         tid,uid
       })
       .then((res) => res.data)
@@ -98,7 +98,7 @@ export const endSubmission=(data)=>{
 }
 
 // //fetch tests
-// axios.get('/api/admin/test/'+testId,{
+// proxyAxios.get('/api/admin/test/'+testId,{
 //   method: "GET",
 //   // Adding headers to the request
 //   headers: {

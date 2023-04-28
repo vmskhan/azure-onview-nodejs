@@ -1,53 +1,49 @@
 import { useEffect, useState } from "react";
 
-import QuestionSection from "./QuestionSection";
-import MarksSection from "./MarksSection";
-import { useDispatch } from "react-redux";
-import { adminDashboardActions } from "../../store/AdminDashboardSlice";
-import { sendNewQuestion, updateQuestion } from "../../store/AdminDashboardActions";
-
 const MultipleChoiceQuestion=(props)=>{
-    const dispatch=useDispatch();
-    const testId=localStorage.getItem('currentTest');
-    const [optionListTypeA,setOptionListTypeA]=useState([{hasText:true,hasImage:false,text:" ",isSelected:false}]);
-    const [questionText,setQuestionText]=useState("");
-    const [marks,setMarks]=useState(0);
-    const [questionImage,setQuestionImage]=useState({preview:'',data:''});
-    
-    
-
-    const imageHandler=(e)=>{
-      let data={
-        preview:URL.createObjectURL(e.target.files[0]),
-        data:e.target.files[0],
+    const [optionListTypeA,setOptionListTypeA]=useState(
+      [{
+        id:1,
+        text:" ",
+        image:{
+          preview:'',
+          data:'',
+        },
+        hasText:true,
+        hasImage:false,
+        isSelected:false
+      }]);
+    const [answer,setAnswer]=useState(
+      {
+        text:0,
+        hasText:true,
+        hasImage:false,
       }
-      setQuestionImage(data);
-    }
-
-    const questionProps={
-      'setQuestionText':setQuestionText,
-      'questionText':questionText,
-       'questionImage':questionImage ,
-       'imageHandler':imageHandler
-      };
-
+      );
+    
     useEffect(()=>{
-      if(props.question!==null && props.mode==='edit')
+      if(props.dynamicComponentData!==null && props.mode==='edit')
       {
-        setQuestionText(props.question.questionText);
-        setOptionListTypeA(props.question.options);
-        setMarks(props.question.marks);
+        setOptionListTypeA(props.dynamicComponentData.options);
+        setAnswer(props.dynamicComponentData.answer)
       }
-      else
-      {
-        setQuestionText("");
-        setOptionListTypeA([{hasText:true,hasImage:false,text:" ",isSelected:false}]);
-        setMarks(0);
-      }
+      // else
+      // {
+      //   setOptionListTypeA([{hasText:true,hasImage:false,text:" ",isSelected:false}]);
+      // }
     },[props.question]);
 
     const addOption=()=>{
-          setOptionListTypeA(optionListTypeA.concat({hasText:true,hasImage:false,text:" ",isSelected:false}));
+          setOptionListTypeA(optionListTypeA.concat(
+            {
+              id:optionListTypeA.length+1,
+              text:"",
+              image:{preview:'',data:''},
+              hasText:true,
+              hasImage:false,
+              isSelected:false
+            })
+            );
         }
 
         const toggleText=(index)=>{
@@ -61,7 +57,7 @@ const MultipleChoiceQuestion=(props)=>{
         temp[index].hasImage=!temp[index].hasImage;
         setOptionListTypeA(temp);
       }
-      
+
       const changeOptionText=(index,value)=>{
         let temp=optionListTypeA.map(option=>({...option}));
         temp[index].text=value;
@@ -76,54 +72,55 @@ const MultipleChoiceQuestion=(props)=>{
       const AnswerHandler=(value)=>{
         let temp=optionListTypeA.map(option=>({...option}));
         temp.forEach((element)=>{
-          if(element.text===value)
+          if(element.id===parseInt(value))
             element.isSelected=true;
           else
             element.isSelected=false;
         })
         setOptionListTypeA(temp);
+        let temp2=Object.assign({},answer);
+        temp2.text=value;
+        setAnswer(temp2);
       }
-      const getSelectedValue=()=>{
-          const option=optionListTypeA.filter((option)=>option.isSelected===true)
-          if(option && option.length>0)
-          {
-            return option[0].text;
-          }
-          else
-          {
-            AnswerHandler(optionListTypeA[0].text);
-            return optionListTypeA[0].text;
-          }
-      }
-      const saveQuestionHandler=()=>{
-        let answerText=getSelectedValue();
-        const data={
-          questionText,
-          options:optionListTypeA,
-          answerText,
-          marks,
-          questionFormat:'Objective Type-A',
-          tid:testId,
-        }
-        if(props.mode && props.mode==='new')
-          dispatch(sendNewQuestion(data));
-        else if(props.mode && props.mode==='edit')
-        {
-        console.log("edit question data")
-        data._id=props.question._id;  
-        console.log(data);
-          dispatch(updateQuestion(data));
-        }
-      }
+      
+     const ImageHandler=(index,e)=>{
+      const data={
+        preview:URL.createObjectURL(e.target.files[0]),
+        data:e.target.files[0]
+      };
+      let temp=optionListTypeA.map(option=>({...option}));
+        temp[index].image=data;
+        setOptionListTypeA(temp);
+     }
 
       useEffect(()=>{
-        console.log(optionListTypeA)
-      },[optionListTypeA])
-    
+        // console.log(optionListTypeA)
+        props.setDynamicComponentData({options:optionListTypeA,answer:answer});
+      },[optionListTypeA,answer]);
+
+      // useEffect(()=>{
+      //   console.log(answer)
+      // },[answer]);
+
+
+    //   const getSelectedValue=()=>{
+    //     const option=optionListTypeA.filter((option)=>option.isSelected===true)
+    //     if(option && option.length>0)
+    //     {
+    //       return option[0].text;
+    //     }
+    //     else
+    //     {
+    //       AnswerHandler(optionListTypeA[0].text);
+    //       return optionListTypeA[0].text;
+    //     }
+    // }
+
+
       return(
         <div>
 
-                    <QuestionSection {...questionProps} />
+                    
                     <div>
                       
 
@@ -140,7 +137,12 @@ const MultipleChoiceQuestion=(props)=>{
                           </>
                           }
                           {option.hasImage &&
-                            <input className="form-control m-2" type="file" name="images"/>
+                            <>
+                            <input className="form-control m-2" type="file" name="images" onChange={(e)=>ImageHandler(index,e)}/>
+                            {option.image.preview && 
+                              <img src={option.image.preview} className="img-fluid"/>
+                            }
+                            </>
                             }
                           <div>
                             <input type="checkbox" className="form-control-input mx-1" name="toggletext" defaultChecked onClick={()=>toggleText(index)}/>
@@ -155,26 +157,23 @@ const MultipleChoiceQuestion=(props)=>{
                   </div>
                   
                   <div className="my-3 d-grid gap-2">
-                    <button className="btn text-white bg-success btn-sm" type="button" onClick={addOption}>
+                    <button className="btn text-light bg-success btn-sm" type="button" onClick={addOption}>
                     <i className="bi bi-plus-circle"></i> Add Option
                     </button>
                   </div>
 
                     <div className="mb-3">
                       <label htmlFor="answer" className="form-label">Correct Option</label>
-                       <select className="form-select form-control-sm answer" name="answerText" value={getSelectedValue()} onChange={(e)=>AnswerHandler(e.target.value)}>
+                       <select className="form-select form-control-sm answer" name="answerText" value={answer.text} onChange={(e)=>AnswerHandler(e.target.value)}>
                           <option label="select answer" key={0}/>
                           {optionListTypeA.map((option,index)=>{
-                              return (<option key={index+1} value={option.text} label={index+1} />);
+                              return (<option key={index+1} value={option.id} label={index+1} />);
                           })
                           }
                         </select>
                         
                     </div>
-                    <MarksSection marks={marks} setMarks={setMarks}/>    
-                    <div className="d-grid gap-2">
-                      <button type="button" className="btn bg-success text-white btn-sm px-5" onClick={saveQuestionHandler} ><i className="fas fa-save"></i> Save</button> 
-                     </div>
+                    
     </div>
 );
 }

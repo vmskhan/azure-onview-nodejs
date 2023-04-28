@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
 import UserTestComp from "../test/UserTestComp";
-import UserHeader from "./UserHeader"
 import { useDispatch, useSelector } from "react-redux";
 import { getUserTests } from "../../store/User-actions";
-import { Link } from "react-router-dom";
 
 const UserDashBoard = () => {
   const dispatch=useDispatch();
@@ -20,12 +18,11 @@ const UserDashBoard = () => {
 
     return(
         <div>
-            <UserHeader/>
     
         <div className="row mt-3 px-5">
             <div className="col-12">
                 <div className="d-flex justify-content-between">
-                    <div className="h5 text-b">Interview Live</div>
+                    <div className="h5 text-light">Interview Live</div>
                     {/* <Link to="/user/userPayment">userPayment</Link> */}
                 </div>
             </div>
@@ -48,7 +45,7 @@ const UserDashBoard = () => {
         <div className="row mt-3 px-5">
           <div className="col-12">
               <div className="d-flex justify-content-between">
-                  <div className="h5 text-b">Interviews Scheduled</div>
+                  <div className="h5 text-light">Interviews Scheduled</div>
               </div>
           </div>
       </div>

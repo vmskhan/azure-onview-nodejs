@@ -1,72 +1,85 @@
 import { useState } from "react";
 import { useEffect } from "react";
-import QuestionSection from "./QuestionSection";
-import MarksSection from "./MarksSection";
 import { useDispatch } from "react-redux";
-import { sendNewQuestion, updateQuestion } from "../../store/AdminDashboardActions";
 
 const SubjectiveQuestion=(props)=>{
-  const testId=localStorage.getItem('currentTest');
-  const dispatch=useDispatch();
-    const [questionText,setQuestionText]=useState("");
-const [marks,setMarks]=useState(0);
-const [answerText,setAnswerText]=useState("");
+  
+  const [answer,setAnswer]=useState(
+    {
+      text:"",
+      image:{
+        preview:"",
+        data:"",
+      },
+      hasText:true,
+      hasImage:false,
+    }
+    );
+    const changeAnswerText=(value)=>{
+      let temp=Object.assign({},answer);
+    temp.text=value;
+    setAnswer(temp);
+    }
+
+    const toggleText=()=>{
+      let temp=Object.assign({},answer);
+        temp.hasText=!temp.hasText;
+        // console.log(temp);
+        setAnswer(temp);
+    }
+    
+    const toggleImage=()=>{
+      let temp=Object.assign({},answer);
+    temp.hasImage=!temp.hasImage;
+    setAnswer(temp);
+    }
+    const ImageHandler=(e)=>{
+      const data={
+        preview:URL.createObjectURL(e.target.files[0]),
+        data:e.target.files[0]
+      };
+      let temp=Object.assign({},answer);
+        temp.image=data;
+        setAnswer(temp);
+     }
+useEffect(()=>{
+  if(props.dynamicComponentData!==null && props.mode==='edit')
+  {
+    
+    setAnswer(props.dynamicComponentData.answer)
+  }
+  // else
+  // {
+  //   setOptionListTypeA([{hasText:true,hasImage:false,text:" ",isSelected:false}]);
+  // }
+},[props.question]);
 
 useEffect(()=>{
-  if(props.question!==null && props.mode==='edit')
-  {
-    setQuestionText(props.question.questionText);
-    setMarks(props.question.marks);
-    setAnswerText(props.question.answerText);
-  }
-  else
-  {
-    setQuestionText("");
-    setMarks(0);
-    setAnswerText("");
-  }
-},[props.mode])
+  // console.log(answer);
+  props.setDynamicComponentData({options:[],answer:answer});
+},[answer]);
 
-
-const saveQuestionHandler=()=>{
-  const data={
-    questionText,
-    options:[],
-    answerText,
-    marks,
-    questionFormat:'Subjective Type-A',
-    tid:testId,
-  }
-  if(props.mode && props.mode==='new')
-  dispatch(sendNewQuestion(data));
-else if(props.mode && props.mode==='edit')
-{
-  data._id=props.question._id; 
-  dispatch(updateQuestion(data));
-}
-}
-    return(
-        <div>    
-        <QuestionSection setQuestionText={setQuestionText} questionText={questionText}/>
+    return( 
           <div className="answer mb-3">
             <label htmlFor="answer" className="form-label">Correct answer</label>
-            <textarea className="form-control form-control-sm" name="answerText" value={answerText} onChange={(e)=>setAnswerText(e.target.value)}></textarea>
-            <div className="d-none">
-              <input className="form-control m-2" type="file" name="images"/>
-            </div>
+            { answer.hasText &&
+            <textarea className="form-control form-control-sm" name="answerText" value={answer.text} onChange={(e)=>changeAnswerText(e.target.value)}></textarea>
+            }
+            {answer.hasImage &&
+             <>
+             <input className="form-control m-2" type="file" name="images" onChange={(e)=>ImageHandler(e)}/>
+             {answer.image.preview && 
+             <img src={answer.image.preview} className="img-fluid"/>
+              }
+             </>
+            }
             <div className="">
-              <input type="checkbox" className="form-control-input mx-1" name="toggletext" defaultChecked onClick="toggleView(this,'textarea');"/>
+              <input type="checkbox" className="form-control-input mx-1" name="toggletext" onClick={(e)=>toggleText()} checked={answer.hasText}/>
               <label className="form-control-label" htmlFor="toggle1">Text</label>
-              <input type="checkbox" className="form-control-input mx-1" name="Toggleimage" onClick="toggleView(this,'div');"/>
+              <input type="checkbox" className="form-control-input mx-1" name="Toggleimage" onClick={(e)=>toggleImage()} checked={answer.hasImage}/>
               <label className="form-control-label" htmlFor="Toggle2">Image</label>
             </div>            
-          </div> 
-          <MarksSection  marks={marks} setMarks={setMarks} />    
-          <div className="d-grid gap-2">
-            <button type="button" className="btn bg-success text-white btn-sm px-5" onClick={saveQuestionHandler} ><i className="fas fa-save"></i> Save</button> 
           </div>
- 
-        </div>
     );
 }
 

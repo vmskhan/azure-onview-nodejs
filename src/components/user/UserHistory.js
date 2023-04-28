@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import UserTestResultComp from "../test/UserTestResultComp";
-import UserHeader from "./UserHeader"
 import { useDispatch, useSelector } from "react-redux";
 import { getUserTests } from "../../store/User-actions";
 
@@ -20,23 +19,20 @@ const UserHistory = () =>{
 },[fetchAgain]);
 
     return(
-        <div>
-            <UserHeader/>
-            
-      
+
     <div className="container-fluid mb-5">
 
         <div className="row mt-3 px-5">
             <div className="col-12">
                 <div className="d-flex justify-content-between">
-                    <div className="h5 text-b text-decoration-underline">Completed Interview</div>
+                    <div className="h5 text-light">Completed Interview</div>
                 </div>
             </div>
         </div>
 
         <div className="row px-5">
           {tests.filter((test)=>test.state==='end').length === 0 &&
-            <div className="text-center text-secondary mt-5">
+            <div className="text-center text-light mt-5">
               You don't have any completed Interviews.
             </div>
           }
@@ -47,8 +43,6 @@ const UserHistory = () =>{
          }
         </div>
       </div>
-
-        </div>
     )
 }
 

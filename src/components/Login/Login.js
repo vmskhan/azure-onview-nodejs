@@ -1,4 +1,4 @@
-import axios from "axios";
+import proxyAxios from "../../axiosMiddleware";
 import {useEffect, useState} from "react";
 import ErrorMessage from "./ErrorMessage";
 import Loading from "./Loading";
@@ -20,11 +20,11 @@ const Login=(props) => {
     const isLoggedIn=useSelector(state=>state.auth.isLoggedIn);
 
     useEffect(() => {
-        let userInfo=localStorage.getItem("userInfo");
+        let userInfo=JSON.parse(localStorage.getItem("userInfo"));
         if(userInfo)
             dispatch(authActions.login());
         if(isLoggedIn){
-            if(JSON.parse(userInfo).isAdmin )
+            if(userInfo.isAdmin )
             {
                 console.log('Admin path');
                 navigate("/admin/adminDashboard");
@@ -51,7 +51,7 @@ const Login=(props) => {
                 },  
             };
             setLoading(true);
-            axios.post("/api/users/login",{email,password},config)
+            proxyAxios.post("/api/users/login",{email,password},config)
             .then((res)=>res.data)
             .then((data)=>{
                 console.log(data);

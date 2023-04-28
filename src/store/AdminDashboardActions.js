@@ -1,16 +1,16 @@
 import { adminDashboardActions } from "./AdminDashboardSlice"
-import axios from "axios";
+import proxyAxios from "../axiosMiddleware";
 
 export const getTests=(id)=>{
   console.log(id);
     return async(dispatch)=>{
         const fetchHandler=async()=>{
-            fetch('/api/admin/tests/'+id,{
+            proxyAxios.get('/api/admin/tests/'+id,{
                 method: "GET",
                 headers: {
                     "Content-type": "application/json; charset=UTF-8"
                 }
-            }).then((res) => res.json())
+            }).then((res) => res.data)
               .then((data)=> {
                 //  setTests(data.resData);
                  console.log(data.resData);
@@ -28,7 +28,7 @@ export const getTests=(id)=>{
 export const getUsers=()=>{
   return async(dispatch)=>{
     const fetchHandler=async()=>{
-      fetch('/api/users/getAllUsers').then((res)=>res.json())
+      proxyAxios.get('/api/users/getAllUsers').then((res)=>res.data)
       .then((data)=>{
         dispatch(adminDashboardActions.updateUsers(data.users));
         console.log(data.users);
@@ -45,7 +45,7 @@ export const getUsers=()=>{
 export const getQuestions=(testId)=>{
   return async(dispatch)=>{
     const fetchHandler=async()=>{
-      axios.get('/api/admin/questions/'+testId,{
+      proxyAxios.get('/api/admin/questions/'+testId,{
         method: "GET",
         // Adding headers to the request
         headers: {
@@ -67,10 +67,37 @@ export const getQuestions=(testId)=>{
 export const sendNewQuestion=(newQuestion)=>{
   return async(dispatch)=>{
     const fetchHandler=async()=>{
-      const {questionText,options,answerText,marks,questionFormat,tid}=newQuestion;
-      axios.post('/api/admin/question',{
-        questionText,questionImage:'0',options,answerText,answerImage:'0',marks,idx:0,questionFormat,tid
-      })
+      const {question,options,answer,marks,tid}=newQuestion;
+      const formData=new FormData();
+      
+      formData.append('questionImage',question.image.data);
+      if(answer.image)
+      formData.append('answerImage',answer.image.data);
+      options.forEach((opt=>{
+        if(opt.hasImage)
+          formData.append('optionImage-'+opt.id,opt.image.data);
+      }));
+
+      let newQues=Object.assign({},question);
+      newQues.image='Nil';
+      let newAnswer=Object.assign({},answer);
+      newAnswer.image='Nil';
+
+      // console.log(question);
+      let newOptions=options.map(opt=>{
+        opt.image='Nil';
+        return opt;
+      });
+
+      formData.append('question',JSON.stringify(newQues));
+      formData.append('options',JSON.stringify(newOptions));
+      formData.append('answer',JSON.stringify(newAnswer));
+      formData.append('marks',marks);
+      formData.append('idx',0);
+      formData.append('tid',tid);
+      
+ 
+      proxyAxios.post('/api/admin/question',formData)
       //{
       //   method: "POST",
       //   headers:{
@@ -93,7 +120,7 @@ export const sendNewQuestion=(newQuestion)=>{
 export const updateTest=(newTest)=>{
   return async(dispatch)=>{
     const fetchHandler=async()=>{
-      axios.put('/api/admin/test',newTest,{
+      proxyAxios.put('/api/admin/test',newTest,{
         headers:{
           "Content-type": "application/json",
       },
@@ -113,7 +140,7 @@ export const updateQuestion=(editQuestion)=>{
   return async(dispatch)=>{
     const fetchHandler=async()=>{
       const {_id,questionText,options,answerText,marks,questionFormat,tid}=editQuestion;
-      axios.put('/api/admin/question',{
+      proxyAxios.put('/api/admin/question',{
         qid:_id,questionText,questionImage:'0',options,answerText,answerImage:'0',marks,idx:0,questionFormat
       })
       .then((res)=>res.data)
@@ -132,7 +159,8 @@ export const updateQuestion=(editQuestion)=>{
 export const deleteQuestionWithGivenQid=(qid,tid)=>{
   return async(dispatch)=>{
     const fetchHandler=async()=>{
-      axios.delete('/api/admin/question/'+qid)
+      console.log('qid:'+qid);
+      proxyAxios.delete('/api/admin/question/'+qid)
       .then((res)=>res.data)
       .then((data)=>{
         console.log(data);
@@ -149,7 +177,7 @@ export const deleteQuestionWithGivenQid=(qid,tid)=>{
 export const getSubmissionForTid=(tid)=>{
   return async(dispatch)=>{
     const fetchHandler=async()=>{
-      axios.get('/api/admin/submission/'+tid)
+      proxyAxios.get('/api/admin/submission/'+tid)
       .then((res)=>res.data)
       .then((data)=>{
         console.log(data);
@@ -166,7 +194,7 @@ export const getSubmissionForTid=(tid)=>{
 export const deleteTestWithTid=(uid,tid)=>{
   return async(dispatch)=>{
     const fetchHandler=async()=>{
-      axios.delete('/api/admin/test/'+tid)
+      proxyAxios.delete('/api/admin/test/'+tid)
       .then((res)=>res.data)
       .then((data)=>{
         console.log(data);

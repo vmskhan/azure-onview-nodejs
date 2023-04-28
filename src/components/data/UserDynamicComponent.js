@@ -10,11 +10,12 @@ export const userTestQuestionComponents={
   }
 
   const UserDynamicComponent=(props)=>{
-    const MyComp=userTestQuestionComponents[props.questionType];
-    const element=React.createElement(userTestQuestionComponents[props.questionType],props);
-    console.log('new test question componenet created');
-    return element;
-    // <MyComp {...props}/>
+    const MyComp=userTestQuestionComponents[props.question.question.format];
+    // const element=React.createElement(userTestQuestionComponents[props.questionType],props);
+    console.log('new test question componenet created:'+props.question.question.format);
+    // return element;
+    console.log(props);
+    return <MyComp {...props}/>
   }
 
   export default UserDynamicComponent;

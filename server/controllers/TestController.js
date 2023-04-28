@@ -1,6 +1,7 @@
 const Test=require('../models/testModel');
 const asyncHandler=require('express-async-handler');
 const url=require('url');
+const { deleteAllQuestionsHandler, deleteAllQuestionsByTid } = require('./QuestionController');
 
 const getTests=asyncHandler(async(req,res) => {
     console.log('admin get tests method called');
@@ -74,6 +75,7 @@ const deleteTestById=asyncHandler(async(req,res) => {
     //const testExists= await Test.findOne({'tname':req.body.uid});
     
     //console.log("test doenst exist already");
+    deleteAllQuestionsByTid(req.params.tid)
     await Test.findByIdAndDelete(req.params.tid);
     // console.log('test created')
     // if(newTest){

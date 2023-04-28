@@ -1,5 +1,4 @@
 import { useDispatch, useSelector } from "react-redux";
-import UserHeader from "./UserHeader"
 import { getUserTests } from "../../store/User-actions";
 import { useEffect } from "react";
 
@@ -16,9 +15,6 @@ const UserPayment = () => {
 	console.log('fetched');
   },[]);
     return(
-        <div>
-            <UserHeader/>
-          
     <div className="container-fluid">
 
         <div className="row mt-4 px-5">
@@ -144,7 +140,6 @@ const UserPayment = () => {
 	
 	</script> */}
 
-        </div>
         </div>
     )
 }

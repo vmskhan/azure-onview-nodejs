@@ -31,14 +31,14 @@ const fetchTests=()=>{
 
     <div className="row mt-4 px-5">
       <div className="col-12">
-          <div className="h5 text-b">Pending Interviews</div>
-          <small className="text-secondary">List of all my Interviews pending for Evaluation</small>
+          <div className="h5 text-light">Pending Interviews</div>
+          <small className="text-light">List of all my Interviews pending for Evaluation</small>
       </div>
     </div>
 
     <div className="row mt-3 px-5">
         <div className="col-12">
-                <div className="h5 text-b">Pending Interview evaluations</div>
+                <div className="h5 text-light">Pending Interview evaluations</div>
         </div>
     </div>
 

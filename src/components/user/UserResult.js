@@ -1,11 +1,8 @@
 import { Link } from "react-router-dom";
 import "./user.css";
-import UserHeader from "./UserHeader";
+
 const UserResult = () =>{
     return(
-        <div>
-            
-  <UserHeader/>
     <div className="container-fluid">
       <div className="px-5 mt-4">
         <nav aria-label="breadcrumb">
@@ -61,9 +58,7 @@ const UserResult = () =>{
           </div>
       </div> 
     </div>
-
-        </div>
-    )
+    );
 }
 
 export default UserResult;

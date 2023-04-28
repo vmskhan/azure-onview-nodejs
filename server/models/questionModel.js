@@ -3,28 +3,66 @@ const mongoose=require('mongoose');
 const questionSchema = mongoose.Schema(
     {
        
-        questionText:{
-            type: String,
+        question:{
+            type: Object,
             required: true,
+            default:{
+                text:{
+                    type: String,
+                    required: false,
+                    default:"",
+                } ,
+                image:{
+                    type:String,
+                    required: false,
+                    default: "",
+                },
+                format:{
+                    type:String,
+                    required:true,
+                },
+                hasText:{
+                    type:Boolean,
+                    required:true
+                },
+                hasImage:{
+                    type:Boolean,
+                    required:true
+                }
+            }
         },
-        questionImage:{
-            type:String,
-            required: true,
-            default: "",
-        },
+        
         options:{
             type:Array,
             required:false,
             default:[]
         },
-        answerText:{
-            type: String,
-            required: true,
-        },
-        answerImage: {
-            type: String,
-            required: true,
-            default: "",
+        answer:{
+            type:Object,
+            required:true,
+            default:{
+                text:{
+                    type: String,
+                    required: false,
+                },
+                image: {
+                    type: String,
+                    required: false,
+                    default: "",
+                },
+                hasText:{
+                    type:Boolean,
+                    required:false
+                },
+                hasImage:{
+                    type:Boolean,
+                    required:false,
+                },
+                correctOptionId:{
+                    type:Number,
+                    required:false,
+                }
+            },
         },
         marks:{
             type: Number,
@@ -34,10 +72,6 @@ const questionSchema = mongoose.Schema(
             type:Number,
             required:true,
             default: 0,
-        },
-        questionFormat:{
-            type:String,
-            required:true,
         },
         tid:{
             type:mongoose.SchemaTypes.ObjectId,

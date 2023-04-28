@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 const TestHeader=()=>{
 return(
-    <nav className="navbar navbar-expand-lg navbar-dark text-l bg-success  px-5">
+    <nav className="navbar navbar-expand-lg navbar-dark text-l px-5">
         <div className="container-fluid">
           <Link className="navbar-brand " to="#">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-person-workspace" viewBox="0 0 16 16">

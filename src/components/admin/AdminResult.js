@@ -35,8 +35,8 @@ useEffect(()=>{
       <div className="px-5 mt-4">
         <nav aria-label="breadcrumb">
           <ol className="breadcrumb">
-            <li className="breadcrumb-item text-primary"><Link to="/admin/adminHistory" className="decor-none"> Completed</Link></li>
-            <li className="breadcrumb-item active" aria-current="page"><Link to="/admin/adminHistory" className="decor-none">Back</Link></li>
+            <li className="breadcrumb-item"><Link to="/admin/adminHistory" className="decor-none text-light"> Completed</Link></li>
+            <li className="breadcrumb-item active" aria-current="page"><Link to="/admin/adminHistory" className="decor-none  text-light">Back</Link></li>
           </ol>
         </nav>
       </div>
@@ -44,14 +44,14 @@ useEffect(()=>{
       <div className="row mt-3 px-5">
           <div className="d-flex justify-content-between">
               <div>
-                <span className="h5 text-b">Result: <span className="text-primary">{test.tname}</span></span>
-                <br/><small className="text-secondary text-muted">Results of Interview takers</small>
+                <span className="h5 text-light">Result: <span className="text-warning">{test.tname}</span></span>
+                <br/><small className="text-light">Results of Interview takers</small>
               </div>
               <div className="fs-2">
-                <span className="badge rounded-pill text-success fw-normal rounded-pill border border-2 border-warning">{test.state}</span>
+                <span className="badge bg-light rounded-pill text-dark fw-normal">{test.state}</span>
               </div>
       </div>
-      <div className="row mt-4 px-5 fs-5 bg-info rounded">
+      <div className="row mt-4 px-5 fs-5 bg-light rounded">
               <div className="d-flex justify-content-between fw-bolder">
                 <span>Date: <span className="fw-normal">{test.date}</span></span>
                 <span>Start Time: <span className="fw-normal">{test.start_time}</span></span>
@@ -64,15 +64,15 @@ useEffect(()=>{
       <div className="row mt-5 px-5">
           <div className="col-12">
               <div className="d-flex justify-content-between">
-                   <div className="h5 text-b">Ranking</div> 
-                  <div> <Link to="/admin/ExcelExport" className="btn bg-success text-white btn-sm"><i className="fas fa-download"></i> Download Result</Link></div>
+                   <div className="h5 text-light">Ranking</div> 
+                  <div> <Link to="/admin/ExcelExport" className="btn bg-success text-light btn-sm"><i class="bi bi-download"></i> Download Result</Link></div>
               </div>
           </div>
       </div>
       
-      <div className="row px-5">
+      <div className="row px-5 mt-3">
           <div className="col-12">
-              <table className="table  table-striped">
+              <table className="table table-dark table-striped">
                   <thead>
                     <tr>
                       <th scope="col">Name</th>

@@ -32,14 +32,14 @@ const fetchTests=()=>{
 
         <div className="row mt-4 px-5">
           <div className="col-12">
-              <div className="h5 text-b">My Interview</div>
-              <small className="text-secondary">List of all my Interviews completed</small>
+              <div className="h5 text-light">My Interview</div>
+              <small className="text-light">List of all my Interviews completed</small>
           </div>
         </div>
 
         <div className="row mt-3 px-5">
             <div className="col-12">
-                    <div className="h5 text-b">Completed Interviews</div>
+                    <div className="h5 text-light">Completed Interviews</div>
             </div>
         </div>
 

@@ -1,7 +1,5 @@
-const OffcanvasHeader=(props)=>{
+const QuestionNavigator=(props)=>{
     return(
-        <div className="offcanvas-header flex-wrap">
-               
               <div className="navbar navbar-dark bg-success container-fluid justify-content-between mb-2">
                 {props.qtypes.map((element,index) => {
                 return(
@@ -15,9 +13,7 @@ const OffcanvasHeader=(props)=>{
                 })
                 }
               </div>
-              <h5 id="offcanvasRightLabel text-b">Add {props.title}</h5>
-              <button type="button" className="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close" ></button>
-            </div>
     );
 }
-export default OffcanvasHeader;
+
+export default QuestionNavigator;

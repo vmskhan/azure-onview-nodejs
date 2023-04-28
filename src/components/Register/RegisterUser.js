@@ -2,7 +2,7 @@ import { useState } from 'react';
 import ErrorMessage from '../Login/ErrorMessage';
 import Loading from '../Login/Loading';
 import './register.css';
-import axios from 'axios';
+import proxyAxios from '../../axiosMiddleware';
 import { Link } from 'react-router-dom';
 
 const RegisterUser=() => {
@@ -35,7 +35,7 @@ const RegisterUser=() => {
             };
             console.log(JSON.stringify({name,email,password,pic}));
             setLoading(true);
-            const {data} = await axios.post(
+            const {data} = await proxyAxios.post(
                 "/api/users/register",
                 {name,email,password,pic,"isAdmin":false},
                 config

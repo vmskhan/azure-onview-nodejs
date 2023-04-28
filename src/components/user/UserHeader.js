@@ -8,7 +8,7 @@ const UserHeader = () => {
 const navigate=useNavigate();
   return(
       
-    <nav className="navbar navbar-expand-lg navbar-dark text-l bg-success  px-5">
+    <nav className="navbar navbar-expand-lg navbar-dark text-l px-5">
         <div className="container-fluid">
           <Link className="navbar-brand " to="#">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-person-workspace" viewBox="0 0 16 16">
@@ -23,7 +23,7 @@ const navigate=useNavigate();
             <span className="px-4"></span>
             <form className="d-flex px-5 w-100">
               <input className="form-control me-2" type="search" placeholder="Search Interviews" aria-label="Search"/>
-              <button className="btn bg-success text-white btn-sm"  type="submit"><i className="fas fa-search"></i></button>
+              <button className="btn text-white btn-sm"  type="submit"><i className="bi bi-search"></i></button>
             </form>
             <div className="me-auto"></div>
             <ul className="navbar-nav mb-2 mb-lg-0 px-4">

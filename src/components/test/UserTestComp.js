@@ -13,13 +13,13 @@ const UserTestComp=(props)=>{
         return(
 
             <div className="col-4 mt-4">
-            <div className="shadow border rounded-3 border-4 border-danger">
-              <div className="card-header border-bottom border-dark text-img text-d" style={{height: '120px'}}>
+            <div className="shadow rounded-3 bg-dark">
+              <div className="card-header rounded-3 border-bottom border-dark text-img text-d" style={{height: '120px'}}>
                 <Link to={props.titleUrl} onClick={handleClickTest} className="decor-none">
                     <h4>{props.testobj.tname}</h4> 
                 </Link>
               </div>
-              <div className="px-3 py-2">
+              <div className="px-3 py-2 text-light">
                 <div className="d-flex justify-content-between">
                     <div>
                         <small>Date : <strong>{props.testobj.date}</strong></small>

@@ -6,19 +6,9 @@ import { authActions } from "./store/AuthSlice";
 
 import './App.css';
 
-
-import Login from "./components/Login/Login";
-import RegisterUser from "./components/Register/RegisterUser";
-import RegisterAdmin from "./components/Register/RegisterAdmin";
-
-
-import UserDashBoard from "./components/user/UserDashboard";
-import UserHistory from "./components/user/UserHistory";
-import UserResult from "./components/user/UserResult";
-import UserPayment from "./components/user/UserPayment";
-import StartTest from "./components/user/StartTest";
-import TestPage from "./components/user/TestPage";
-
+import CommonLogin from "./pages/common/Login";
+import CommonRegisterUser from "./pages/common/RegisterUser";
+import CommonRegisterAdmin from "./pages/common/RegisterAdmin";
 
 import AdminDashboard from "./pages/admin/Dashboard";
 import PendingTests from "./pages/admin/PendingTests";
@@ -27,6 +17,14 @@ import InterviewControls from "./pages/admin/InterviewControls";
 import AdminInterviewResults from "./pages/admin/InterviewResults";
 import Meeting from "./pages/admin/Meeting";
 import SubmissionEvaluation from "./pages/admin/SubmissionEvaluation";
+
+import UserDashboard from "./pages/users/Dashboard";
+import PreviousTest from "./pages/users/PreviousTest";
+import UserInterviewResult from "./pages/users/InterviewResult";
+import Payment from "./pages/users/Payment";
+import JoinInterview from "./pages/users/JoinInterview";
+import UserInterview from "./pages/users/Interview";
+
 
 
 const App = () => {
@@ -41,10 +39,9 @@ const App = () => {
   return( 
   <BrowserRouter>
     <Routes>
-    <Route path = "/" element = {<Login/>} exact />
-      <Route path ="/registerUser" element={<RegisterUser/>} exact/>
-      <Route path ="/registerAdmin" element={<RegisterAdmin/>} exact/>
-      {/* <Route path = "/new" element = {<NewLogin/>} exact /> */}
+    <Route path = "/" element = {<CommonLogin/>} exact />
+      <Route path ="/registerUser" element={<CommonRegisterUser/>} exact/>
+      <Route path ="/registerAdmin" element={<CommonRegisterAdmin/>} exact/>
       {isLoggedIn &&
       <>
      
@@ -56,12 +53,12 @@ const App = () => {
       <Route path ="/admin/adminQuestion" element={<InterviewControls/>} exact/>
       <Route path ="/admin/adminResult" element={<AdminInterviewResults/>} exact/>
     
-      <Route path ="/user/userDashboard" element={<UserDashBoard/>} exact/>
-      <Route path ="/user/userHistory" element={<UserHistory/>} exact/>
-      <Route path ="/user/userResult" element={<UserResult/>} exact/>
-      <Route path ="/user/userPayment" element={<UserPayment/>} exact/>
-      <Route path ="/user/startTest" element={<StartTest/>} exact/>
-      <Route path ="/user/testPage" element={<TestPage/>} exact/>
+      <Route path ="/user/userDashboard" element={<UserDashboard/>} exact/>
+      <Route path ="/user/userHistory" element={<PreviousTest/>} exact/>
+      <Route path ="/user/userResult" element={<UserInterviewResult/>} exact/>
+      <Route path ="/user/userPayment" element={<Payment/>} exact/>
+      <Route path ="/user/startTest" element={<JoinInterview/>} exact/>
+      <Route path ="/user/testPage" element={<UserInterview/>} exact/>
       </>
     }
       </Routes>
