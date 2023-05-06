@@ -42,7 +42,7 @@ const MultipleSelectQuestion=(props)=>{
                         {props.question.options.map((option,index)=>{
                           return(<div className="card px-2 py-2 mb-2 bg-transparent border-light">
                             <div className="form-check">
-                              <input className="form-check-input" type="checkbox"  id={index+1} value={option.text} onChange={(e)=>MultipleAnswerHandler(e)} name="answerText" />
+                              <input className="form-check-input" type="checkbox"  id={option.id} value={option.id} onChange={(e)=>MultipleAnswerHandler(e)} name="answerText" />
                               { option.hasText &&
                               <label className="form-check-label mb-2" htmlFor={index+1}>{option.text}</label>
                               }

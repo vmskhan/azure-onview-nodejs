@@ -35,7 +35,7 @@ const MultipleChoiceQuestion=(props)=>{
                         {options.map((option,index)=>{
                           return(<div key={index} className="card px-2 py-2 mb-2 bg-transparent border-light">
                             <div className="form-check">
-                              <input className="form-check-input" type="radio"  id={index+1} value={option.text} onChange={(e)=>props.setAnswer(e.target.value)} name="answerText" required />
+                              <input className="form-check-input" type="radio"  id={option.id} value={option.id} onChange={(e)=>props.setAnswer(e.target.value)} name="answerText" required />
                               {option.hasText &&
                               <label className="form-check-label mb-2" htmlFor={index+1}>{option.text}</label>
                               }

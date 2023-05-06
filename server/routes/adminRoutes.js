@@ -2,7 +2,7 @@ const express=require("express");
 
 const { getQuestions, getQuestionById, createQuestion, updateQuestionById, deleteQuestionById, deleteSingleQuestionHandler } = require("../controllers/QuestionController");
 const {getTests, createTest, getTestById, updateTestById, deleteTestById} = require('./../controllers/TestController');
-const { getSubmission } = require("../controllers/submissionController");
+const { getSubmission, deleteSubmission, updateParticularSubmissionState } = require("../controllers/submissionController");
 
 const router=express.Router();
 
@@ -20,5 +20,6 @@ router.route('/question/:qid').delete(deleteSingleQuestionHandler);
 
 
 router.route('/submission/:tid').get(getSubmission);
-
+router.route('/submission/:sid').delete(deleteSubmission);
+router.route('/submission/state').put(updateParticularSubmissionState)
 module.exports = router;

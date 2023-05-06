@@ -50,7 +50,7 @@ const fetchTests=()=>{
             </div>
           }
           {tests.map((test,index)=>{
-            if(test.state==='end')
+            if(test.state!=='pending')
             return <TestComp testobj={test} index={index} titleUrl={'/admin/adminResult'}/>
           })
           }

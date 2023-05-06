@@ -31,16 +31,16 @@ const fetchTests=()=>{
 
     <div className="row mt-4 px-5">
       <div className="col-12">
-          <div className="h5 text-light">Pending Interviews</div>
-          <small className="text-light">List of all my Interviews pending for Evaluation</small>
+          <div className="h5 text-light">Pending Interview Evaluations</div>
+          <small className="text-light">List of all pending Interview Evaluations</small>
       </div>
     </div>
 
-    <div className="row mt-3 px-5">
+    {/* <div className="row mt-3 px-5">
         <div className="col-12">
                 <div className="h5 text-light">Pending Interview evaluations</div>
         </div>
-    </div>
+    </div> */}
 
     <div className="row px-5">
       {tests.length === 0 && 
@@ -50,7 +50,7 @@ const fetchTests=()=>{
       }
       {tests.map((test,index)=>{
             if(test.state==='pending')
-            return <TestComp testobj={test} index={index} titleUrl={'/admin/adminEvaluateAnswer'}/>
+            return <TestComp testobj={test} index={index} titleUrl={'/admin/adminPendingSubmissions'}/>
           })
           }
           

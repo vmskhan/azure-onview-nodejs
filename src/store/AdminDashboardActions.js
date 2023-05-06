@@ -207,3 +207,40 @@ export const deleteTestWithTid=(uid,tid)=>{
     await fetchHandler();
   }
 }
+
+export const deleteSubmissionWithId=(sid,test)=>{
+  return async(dispatch)=>{
+    const fetchHandler=async()=>{
+      proxyAxios.delete('/api/admin/submission/'+sid)
+      .then((res)=>res.data)
+      .then((data)=>{
+        console.log(data);
+        // dispatch(getTests(uid));
+        let temp=Object.assign({},test,{'state':'end'});
+        dispatch(updateTest(temp));
+      })
+      .catch((error)=>{
+        console.log(error);
+      });
+    }
+    await fetchHandler();
+  }
+}
+
+export const updateSubmissionState=(data)=>{
+  return async(dispatch)=>{
+    const fetchHandler=async()=>{
+      // const {_id,questionText,options,answerText,marks,questionFormat,tid}=editQuestion;
+      proxyAxios.put('/api/admin/submission/state',data)
+      .then((res)=>res.data)
+      .then((data)=>{
+        console.log(data);
+        // dispatch(getQuestions(tid));
+      })
+      .catch((error)=>{
+        console.log(error);
+      });
+    }
+    await fetchHandler();
+  }
+}

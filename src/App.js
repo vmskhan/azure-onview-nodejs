@@ -24,6 +24,8 @@ import UserInterviewResult from "./pages/users/InterviewResult";
 import Payment from "./pages/users/Payment";
 import JoinInterview from "./pages/users/JoinInterview";
 import UserInterview from "./pages/users/Interview";
+import ViewSubmission from "./pages/admin/ViewSubmission";
+import PendingSubmissions from "./pages/admin/PendingSubmissions";
 
 
 
@@ -49,9 +51,11 @@ const App = () => {
       <Route path ="/admin/adminHistory" element={<CompletedTests/>} exact/>
       <Route path ="/admin/adminEvaluation" element={<PendingTests/>} exact/>
       <Route path ="/admin/adminEvaluateAnswer" element={<SubmissionEvaluation/>} exact/>
+      <Route path ="/admin/adminPendingSubmissions" element={<PendingSubmissions/>} exact/>
       <Route path ="/admin/adminMeet" element={<Meeting/>} exact/>
       <Route path ="/admin/adminQuestion" element={<InterviewControls/>} exact/>
       <Route path ="/admin/adminResult" element={<AdminInterviewResults/>} exact/>
+      <Route path ="/admin/adminSubmission" element={<ViewSubmission/>} exact/>
     
       <Route path ="/user/userDashboard" element={<UserDashboard/>} exact/>
       <Route path ="/user/userHistory" element={<PreviousTest/>} exact/>

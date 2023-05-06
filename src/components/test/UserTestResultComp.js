@@ -13,7 +13,7 @@ const UserTestResultComp=(props)=>{
     return(
         
             <div className="col-4 mt-4">
-            <div className="shadow border rounded-3 border-4 border-primary">
+            <div className="shadow rounded-3 bg-dark text-light">
               <div className="card-header border-bottom border-dark text-img text-d" style={{height: '120px'}}>
               <Link to={props.titleUrl} onClick={handleClickTest} className="decor-none">
                     <h4>{props.testobj.tname}</h4> 

@@ -2,6 +2,7 @@ const Test=require('../models/testModel');
 const asyncHandler=require('express-async-handler');
 const url=require('url');
 const { deleteAllQuestionsHandler, deleteAllQuestionsByTid } = require('./QuestionController');
+const Submission = require('../models/submissionModel');
 
 const getTests=asyncHandler(async(req,res) => {
     console.log('admin get tests method called');
@@ -12,7 +13,7 @@ const getTests=asyncHandler(async(req,res) => {
         res.json({
             'resData': tests
         });
-        console.log('tests '+tests);
+        // console.log('tests '+tests);
 
     }
 
@@ -56,8 +57,16 @@ const updateTestById=asyncHandler(async(req,res) => {
     const {_id,tname,amount,date,duration,needPayment,start_time,state,totalMarks,pid,uid} =req.body;
     //const testExists= await Test.findOne({'tname':req.body.uid});
     // console.log("test doenst exist already");
+    let finalState=state;
+    if(state==='end')
+    {
+        const subList=await Submission.find({'tid':_id,'submissionState':'pending'});
+        if(subList.length>0) 
+            finalState='pending'
+    }
+    console.log(finalState);
     await Test.findByIdAndUpdate(_id,{
-        tname,amount,date,duration,needPayment,start_time,state,totalMarks,pid,uid
+        tname,amount,date,duration,needPayment,start_time,'state':finalState,totalMarks,pid,uid
     });
     // console.log('test created')
     // if(newTest){

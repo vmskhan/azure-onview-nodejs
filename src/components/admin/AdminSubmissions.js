@@ -1,16 +1,17 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { deleteSubmissionWithId, getQuestions, getSubmissionForTid, getTests, getUsers, updateSubmissionState, updateTest } from "../../store/AdminDashboardActions";
+import { deleteSubmissionWithId, getQuestions, getSubmissionForTid, getTests, getUsers, updateTest } from "../../store/AdminDashboardActions";
 
-const AdminEvaluateAnswer = () => {
-  const baseUrl=process.env.REACT_APP_IMAGE_UPLOADS_BASE_URL;
+
+const AdminSubmission=()=>{
+    const baseUrl=process.env.REACT_APP_IMAGE_UPLOADS_BASE_URL;
   const testId=localStorage.getItem("currentTest");
   const submissionId=localStorage.getItem("currentSubmission");
   const submission=useSelector(state=>state.adminDashboard.submissions.filter((sub)=>sub._id===submissionId)[0]);
   const user=JSON.parse(localStorage.getItem("userInfo"));
   const test=useSelector(state=>state.adminDashboard.tests.filter((test)=>test._id===testId)[0])
-  const participant=useSelector(state=>state.adminDashboard.usersList.filter((us)=>us._id===submission.uid)[0]);
+  const participant=useSelector(state=>state.adminDashboard.usersList.filter((user)=>user._id===submission.uid)[0]);
   const questions=useSelector(state=>state.adminDashboard.questions);
   const dispatch=useDispatch();
   
@@ -25,43 +26,38 @@ const AdminEvaluateAnswer = () => {
       console.log(baseUrl)
   },[])
 useEffect(()=>{
-  console.log(participant);
-},[participant]);
-
-    const submissionStateHandler=(state,index,questionMarks)=>{
-      let data={
-        'tid':testId,
-        'uid':test.pid,
-        index,
-        'newState':state,
-        questionMarks
-      }
-      console.log(data);
-      dispatch(updateSubmissionState(data))
-    }
+console.log(submissionId);
+},[submissionId])
+    // const submissionStateHandler=(state,index,questionMarks)=>{
+    //   let data={
+    //     'tid':testId,
+    //     'uid':test.pid,
+    //     index,
+    //     'newState':state,
+    //     questionMarks
+    //   }
+    //   console.log(data);
+    //   dispatch(updateSubmissionState(data))
+    // }
 
     const deleteSubmissionHandler=()=>{
-      dispatch(deleteSubmissionWithId(submission._id,test))
+      dispatch(deleteSubmissionWithId(submission._id))
     }
-    const finishHandler=()=>{
-      let temp=Object.assign({},test,{'state':"end"});
-      console.log(temp)
-      dispatch(updateTest(temp));
-    }
+    // const finishHandler=()=>{
+    //   let temp=Object.assign({},test,{'state':"end"});
+    //   console.log(temp)
+    //   dispatch(updateTest(temp));
+    // }
 
-  return(
-    <>
-    {submission && test && participant &&
-      <>
-    
+  return(<>
+    {submission && test && participant && 
         <div>
     <div className="container-fluid">      
         <div className="px-5 mt-4">
           <nav aria-label="breadcrumb">
             <ol className="breadcrumb">
-              <li className="breadcrumb-item "><Link to="/admin/adminHistory" className="text-info">Pending</Link></li>
-              <li className="breadcrumb-item "><Link to="/admin/adminPendingSubmissions" className="text-info">Submissions</Link></li>
-              <li className="breadcrumb-item active text-light" aria-current="page">Evaluation</li>
+              <li className="breadcrumb-item "><Link to="/admin/adminResult" className="text-info">Result</Link></li>
+              <li className="breadcrumb-item active text-light" aria-current="page">Submission</li>
             </ol>
           </nav>
         </div>
@@ -70,14 +66,13 @@ useEffect(()=>{
                 <div className="d-flex justify-content-between">
                   <div>
                     <div className="h5 text-light">Interview : <span className="text-warning">{test.tname}</span> </div>
-                    <small className="text-light">Evaluate answers of the Interviewee</small>
+                    <small className="text-light">View answers of the Interviewee</small>
                   </div>
                   <div>
                      <div className="h5 text-light">Interviewee : <span className="text-warning">{participant.name}</span></div> 
-                    <button className="btn btn-outline-light fw-bolder m-2" onClick={()=>{finishHandler()}}>Finish Evaluation</button>
+                    {/* <button className="btn btn-outline-light fw-bolder m-2" onClick={()=>{finishHandler()}}>Finish Evaluation</button> */}
                     <button className="btn btn-outline-light fw-bolder m-2" onClick={()=>{deleteSubmissionHandler()}}>Delete Submission</button>
-                  </div>
-                    
+                  </div>   
                 </div>
             </div>
         </div>
@@ -87,15 +82,12 @@ useEffect(()=>{
                   <div>
                     <div className="h5 text-light">Marks Scored: <span className="text-warning">{submission.totalMarks}</span> </div>
                     <div className="h5 text-light">Total Marks: <span className="text-warning">{test.totalMarks}</span> </div>
-
+                    {/* <small className="text-light">Evaluate answers of the Interviewee</small> */}
                   </div>
                   <div>
-                  <span className="h5 text-light">Evaluation Status : </span>
-                     <div className="btn fs-5 text-light rounded-pill bg-success">{submission.submissionState}</div> 
-                    {/* <button className="btn btn-outline-light fw-bolder m-2" onClick={()=>{finishHandler()}}>Finish Evaluation</button>
-                    <button className="btn btn-outline-light fw-bolder m-2" onClick={()=>{deleteSubmissionHandler()}}>Delete Submission</button> */}
-                  </div>
-                    
+                    <span className="h5 text-light">Evaluation Status: </span>
+                    <div className="btn text-light rounded-pill bg-success">{submission.submissionState}</div>
+                  </div>   
                 </div>
             </div>
         </div>
@@ -154,7 +146,6 @@ useEffect(()=>{
                           )
                           
                             }
-                          
                         </div>
                         {question.question.format==='Objective Type-A'&&
                         <>
@@ -228,10 +219,10 @@ useEffect(()=>{
                           </>
                         }
                         {/* <!-- correct/wrong selection buttons --> */}
-                        <div className="mt-2 text-end">
-                          <button className="btn btn-success m-2" onClick={()=>submissionStateHandler('correct',submission.submissions.findIndex((sub)=>sub.qid===question._id),question.marks)}><i className="bi bi-check-circle"></i> Correct Answer </button>
-                          <button className="btn btn-danger m-2" onClick={()=>submissionStateHandler('wrong',submission.submissions.findIndex((sub)=>sub.qid===question._id),question.marks)}><i className="bi bi-x-circle"></i> Wrong Answer</button>
-                        </div>
+                        {/* <div className="mt-2 text-end">
+                          <button className="btn btn-success m-2" onClick={()=>submissionStateHandler('correct',submissions[0].submissions.findIndex((sub)=>sub.qid===question._id),question.marks)}><i className="bi bi-check-circle"></i> Correct Answer </button>
+                          <button className="btn btn-danger m-2" onClick={()=>submissionStateHandler('wrong',submissions[0].submissions.findIndex((sub)=>sub.qid===question._id),question.marks)}><i className="bi bi-x-circle"></i> Wrong Answer</button>
+                        </div> */}
                       </div>
                     </div>    
 
@@ -253,10 +244,9 @@ useEffect(()=>{
         </div>
 
 </div>
-</>
+
 }
 </>
     )
 }
-
-export default AdminEvaluateAnswer;
+export default AdminSubmission;

@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 
 
 
-const Login=(props) => {
+const Login=() => {
     const [email,setEmail]=useState("");
     const [password,setPassword]=useState("");
     const [loading,setLoading]=useState(false);
@@ -21,6 +21,7 @@ const Login=(props) => {
 
     useEffect(() => {
         let userInfo=JSON.parse(localStorage.getItem("userInfo"));
+        console.log("isLoggedIn:"+isLoggedIn);
         if(userInfo)
             dispatch(authActions.login());
         if(isLoggedIn){
@@ -38,7 +39,7 @@ const Login=(props) => {
         else
             navigate("/");
             
-        console.log("isLoggedIn:"+isLoggedIn);
+        
         },[isLoggedIn]);
 
     const submitHandler = async (e) => {

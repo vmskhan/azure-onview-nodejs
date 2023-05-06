@@ -53,7 +53,7 @@ const submissionHandler=()=>{
   console.log(data);
   console.log(user);
   incrementIndex();
-dispatch(updateSubmission(data));
+dispatch(updateSubmission(data,'none'));
 }
 const endTestHandler=()=>{
   
@@ -63,8 +63,8 @@ const endTestHandler=()=>{
     choice:answer,
   }
   console.log(data);
-  dispatch(updateSubmission(data));
-  dispatch(endSubmission({'tid':testId,'uid':user._id}));
+  dispatch(updateSubmission(data,'end'));
+  // dispatch(endSubmission({'tid':testId,'uid':user._id}));
   navigate('/user/userDashboard',{replace:true});
 }
   return(

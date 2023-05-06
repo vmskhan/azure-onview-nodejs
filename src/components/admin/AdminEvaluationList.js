@@ -2,10 +2,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { useEffect } from "react";
 import { getUserTests } from "../../store/User-actions";
-import { getSubmissionForTid, getTests, updateTest } from "../../store/AdminDashboardActions";
+import { getSubmissionForTid, getTests } from "../../store/AdminDashboardActions";
 import { getUsers } from "../../store/AdminDashboardActions";
 
-const AdminResult = () => {
+const AdminEvaluationList = () => {
   const testId=localStorage.getItem("currentTest");
   const submissions=useSelector(state=>state.adminDashboard.submissions);
   const user=JSON.parse(localStorage.getItem("userInfo"));
@@ -33,26 +33,21 @@ useEffect(()=>{
   console.log(usersList);
 },[usersList])
 
-const viewSubmissionHandler=(subId)=>{
-  localStorage.setItem('currentSubmission',subId)
-  console.log(subId);
-}
-const restartHandler=()=>{
-  let temp=Object.assign({},test,{'state':'edit'})
-  dispatch(updateTest(temp));
+const viewSubmissionHandler=(id)=>{
+  localStorage.setItem('currentSubmission',id)
 }
 
     return(
         
         <div>
-          {test && usersList &&
+          {test && 
           <>
     <div className="container-fluid">
       <div className="px-5 mt-4">
         <nav aria-label="breadcrumb">
           <ol className="breadcrumb">
-            <li className="breadcrumb-item"><Link to="/admin/adminHistory" className="decor-none text-light"> Completed</Link></li>
-            <li className="breadcrumb-item active" aria-current="page"><Link to="/admin/adminHistory" className="decor-none  text-light">Back</Link></li>
+            <li className="breadcrumb-item"><Link to="/admin/adminHistory" className="decor-none text-info"> Pending</Link></li>
+            <li className="breadcrumb-item active" aria-current="page"><span className="text-light">Submissions</span></li>
           </ol>
         </nav>
       </div>
@@ -81,7 +76,6 @@ const restartHandler=()=>{
           <div className="col-12">
               <div className="d-flex justify-content-between">
                    <div className="h5 text-light">Ranking</div> 
-                   <Link className="btn btn-outline-light" onClick={restartHandler}>Restart Interview</Link>
                   {/* <div> <Link to="/admin/ExcelExport" className="btn bg-success text-light btn-sm"><i class="bi bi-download"></i> Download Result</Link></div> */}
               </div>
           </div>
@@ -103,15 +97,16 @@ const restartHandler=()=>{
                     {submissions.map((sub,index)=>{
                       let user=usersList.filter((users)=>users._id===sub.uid)[0]
                       console.log(user);
-                      return(
-                      <tr>
-                         <td scope="row">{user.name}</td> 
-                        <td>{user.email}</td>
-                        <td>{sub.totalMarks}</td>
-                        <td>{index+1}</td>
-                        <td><Link to="/admin/adminSubmission" onClick={()=>viewSubmissionHandler(sub._id)} className="btn btn-success">view submission</Link></td>
-                      </tr>
-                      );
+                      // if(sub.submissionState==='pending')
+                        return(
+                        <tr>
+                            <td scope="row">{user.name}</td> 
+                            <td>{user.email}</td>
+                            <td>{sub.totalMarks}</td>
+                            <td>{index+1}</td>
+                            <td><Link to="/admin/adminEvaluateAnswer" onClick={()=>viewSubmissionHandler(sub._id)} className="btn btn-success">Evaluate submission</Link></td>
+                        </tr>
+                        );
                       })
                      }
                   </tbody>
@@ -126,4 +121,4 @@ const restartHandler=()=>{
     );
 }
 
-export default AdminResult;
+export default AdminEvaluationList;

@@ -56,18 +56,22 @@ export const createNewEmptySubmission=(tid,uid)=>{
   }
 }
 
-export const updateSubmission=(data)=>{
+export const updateSubmission=(data,state)=>{
   return async(dispatch)=>{
     const fetchHandler=async()=>{
       const {uid,question,choice}=data
+      console.log(question);
+      console.log(choice);
       proxyAxios.put('/api/users/submission',{
-        'tid':question.tid,uid,'qid':question._id,choice,'questionMarks':question.marks,rightAnswer:question.answerText,questionFormat:question.questionFormat
+        'tid':question.tid,uid,'qid':question._id,choice,'questionMarks':question.marks,rightAnswer:question.answer.text,questionFormat:question.question.format
       })
       .then((res) => res.data)
         .then((data)=> {
            //dispatch(userActions.updateQuestions(data.resData));
           //  console.log(data.resData);
            console.log(data);
+           if(state==='end')
+            dispatch(endSubmission({tid:question.tid,uid}))
         })
         .catch((error)=>{
           console.log(error);

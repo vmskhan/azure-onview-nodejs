@@ -164,11 +164,11 @@ const fetchTests=()=>{
                 <label htmlFor="duration" className="form-label">Duration (Eg. 1.30) </label>
                 <input type='text' name="duration" onChange={(e) => setDuration(e.target.value)} placeholder="eg. 1 hr" className="form-control form-control-sm" id="duration" />
             </div>
-            <div className="mb-3">
+            {/* <div className="mb-3">
               <label htmlFor="amount" className="form-label">Payment (in Rs)</label>
               <input type='text' name="amount" onChange={(e) => setAmount(e.target.value)} className="form-control form-control-sm" id="amount" />
               <small className="mt-1 text-secondary">Leave empty if you don't want have any fee to take this Interview</small>
-            </div>
+            </div> */}
 
             <div className="mb-3">
               <label htmlFor="participant_id" className="form-label">Interviewee</label>

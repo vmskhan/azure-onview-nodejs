@@ -36,6 +36,11 @@ const submissionSchema = mongoose.Schema(
                     type:String,
                     required:true,
                     default: "0",
+                },
+                answerStatus:{
+                    type:String,
+                    required:true,
+                    default: "0",
                 }
         },
     ],
