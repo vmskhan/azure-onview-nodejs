@@ -8,8 +8,8 @@ const UserDashBoard = () => {
   const tests=useSelector(state=>state.user.tests);
   const [uid,setUid]=useState("");
   const [loading,setLoading]=useState(false);
-  
-  const user=JSON.parse(localStorage.getItem('userInfo'));
+  const searchValue=useSelector((state)=>state.user.searchValue) 
+  const user=useSelector((state)=>state.auth.userInfo);
   useEffect(()=>{
    if(tests.length===0)
     dispatch(getUserTests(user._id));
@@ -29,13 +29,13 @@ const UserDashBoard = () => {
         </div>
 
         <div className="row px-5">
-          {tests.length === 0 &&
-            <div className="text-center text-secondary mt-5">
-              You don't have any interviews live now.
+          {tests.filter((test)=>test.state==='start').length === 0 &&
+            <div className="text-center text-light fs-6 mt-5">
+              You don't have any interviews live now :-)
             </div>
          }
          { tests.map((test,index)=>{
-          if(test.state==='start')
+          if(test.state==='start' && (test.tname.includes(searchValue) || searchValue===''))
           return <UserTestComp testobj={test} index={index} titleUrl={"/user/startTest"}/>
         })
          }
@@ -51,13 +51,13 @@ const UserDashBoard = () => {
       </div>
 
       <div className="row px-5">
-        {tests.length === 0 &&
-          <div className="text-center text-secondary mt-5">
-            You don't have any scheduled interviews.
+        {tests.filter((test)=>test.state==='edit').length === 0 &&
+          <div className="text-center text-light fs-6 mt-5">
+            You don't have any scheduled interviews :-)
           </div>
         }
         { tests.map((test,index)=>{
-          if(test.state==='edit')
+          if(test.state==='edit' && (test.tname.includes(searchValue) || searchValue===''))
           return <UserTestComp testobj={test} index={index} titleUrl={"#"}/>
         })
          }

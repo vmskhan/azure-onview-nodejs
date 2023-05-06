@@ -7,7 +7,7 @@ const UserPayment = () => {
 	const test=useSelector(state=>state.user.tests.filter((test)=>test._id===testId)[0]);
 
 	const dispatch=useDispatch();
-	const user=JSON.parse(localStorage.getItem('userInfo'));
+	const user=useSelector((state)=>state.auth.userInfo);
 	useEffect(()=>{
 	  if(!test)
 		dispatch(getUserTests(user._id));

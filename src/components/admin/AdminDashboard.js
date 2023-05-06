@@ -21,7 +21,8 @@ const AdminDashboard = () => {
   const [loading,setLoading]=useState(false);
 const [pid,setPid]=useState("");
 
-  const user=JSON.parse(localStorage.getItem('userInfo'));
+  const user=useSelector((state)=>state.auth.userInfo);
+  const searchValue=useSelector((state)=>state.adminDashboard.searchValue);
   useEffect(()=>{
     console.log(userList);
     console.log("isLoggedIn:"+isLoggedIn);
@@ -103,8 +104,8 @@ const fetchTests=()=>{
             <div className="d-flex justify-content-between">
                 <div className="h5 text-white">Current Interview</div>
                 <div>
-                  <button className="btn bg-r text-white btn-sm" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
-                    <i className="fas fa-plus"></i> Create Interview
+                  <button className="btn btn-outline-light btn-sm" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+                  <i class="bi bi-plus-lg"></i> Create Interview
                   </button>
                 </div>
             </div>
@@ -112,14 +113,14 @@ const fetchTests=()=>{
     </div>
 
     <div className="row px-5">
-      { tests.length === 0 && 
+      { tests.filter((test)=>test.state==='start' || test.state==='edit').length === 0 && 
         <div>
-        <div className="text-center text-secondary mt-5">
-          You don't have any Interviews yet.
+        <div className="text-center text-light fs-6 mt-5">
+          You don't have any Interviews yet :-)
         </div>
         <div className="text-center text-secondary mt-3">
-          <button className="btn bg-r text-white btn-sm" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
-            <i className="fas fa-plus"></i> Create Interview
+          <button className="btn btn-outline-light" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+          <i class="bi bi-plus-lg"></i> Create Interview
           </button>
         </div>
         </div>
@@ -129,7 +130,7 @@ const fetchTests=()=>{
         
           {
           tests.map((test,index)=>{
-            if(test.state==='start' || test.state==='edit')
+            if((test.state==='start' || test.state==='edit') && (test.tname.includes(searchValue) || searchValue==='' ))
           return <TestComp testobj={test} index={index} titleUrl={"/admin/adminQuestion"} />     
          })} 
       </>

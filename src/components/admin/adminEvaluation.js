@@ -4,12 +4,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { getTests } from "../../store/AdminDashboardActions";
 
 const AdminEvaluation = () => {
+  const searchValue=useSelector((state)=>state.adminDashboard.searchValue);
   const tests=useSelector(state=>state.adminDashboard.tests);
   const dispatch=useDispatch();
   const [uid,setUid]=useState("");
   const [loading,setLoading]=useState(false);
   
-  const user=JSON.parse(localStorage.getItem('userInfo'));
+  const user=useSelector((state)=>state.auth.userInfo);
   
   
 useEffect(()=>{
@@ -43,13 +44,13 @@ const fetchTests=()=>{
     </div> */}
 
     <div className="row px-5">
-      {tests.length === 0 && 
-        <div className="text-center text-secondary mt-5">
-          You don't have any pending Interview evaluations.
+      {tests.filter((test)=>test.state==='pending').length === 0 && 
+        <div className="text-center text-light fs-6 mt-5">
+          You don't have any pending Interview evaluations :-)
         </div>
       }
       {tests.map((test,index)=>{
-            if(test.state==='pending')
+            if(test.state==='pending' && (test.tname.includes(searchValue) || searchValue==='' ))
             return <TestComp testobj={test} index={index} titleUrl={'/admin/adminPendingSubmissions'}/>
           })
           }

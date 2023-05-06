@@ -9,8 +9,8 @@ const UserHistory = () =>{
   const [uid,setUid]=useState("");
   const [loading,setLoading]=useState(false);
   const [fetchAgain,setFetchAgain] = useState(false);
-
-  const user=JSON.parse(localStorage.getItem('userInfo'));
+  const searchValue=useSelector((state)=>state.user.searchValue);
+  const user=useSelector((state)=>state.auth.userInfo);
   useEffect(()=>{
     if(tests.length===0)
       dispatch(getUserTests(user._id));
@@ -32,12 +32,12 @@ const UserHistory = () =>{
 
         <div className="row px-5">
           {tests.filter((test)=>test.state==='end').length === 0 &&
-            <div className="text-center text-light mt-5">
-              You don't have any completed Interviews.
+            <div className="text-center text-light fs-6 mt-5">
+              You don't have any completed Interviews :-)
             </div>
           }
           { tests.map((test,index)=>{
-          if(test.state==='end')
+          if(test.state==='end' && (test.tname.includes(searchValue) || searchValue===''))
           return <UserTestResultComp testobj={test} index={index} titleUrl={"/user/userResult"} /> 
         })
          }

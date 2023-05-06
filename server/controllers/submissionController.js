@@ -115,6 +115,18 @@ const getSubmission=asyncHandler(async(req,res)=>{
     }
 })
 
+
+const getUserSubmission=asyncHandler(async(req,res)=>{
+    console.log('get submission methpod called')
+    const subList=await Submission.find({'tid':req.params.tid,'uid':req.params.uid});
+    if(subList)
+    {
+        res.status(200).json({
+            'submissions':subList
+        });
+    }
+})
+
 const deleteSubmission=asyncHandler(async(req,res)=>{
     console.log('get submission methpod called')
     const subList=await Submission.findByIdAndDelete({'_id':req.params.sid});
@@ -177,6 +189,7 @@ module.exports={
     updateSubmission,
     changeSubmissionState,
     getSubmission,
+    getUserSubmission,
     updateParticularSubmissionState,
     deleteSubmission,
 }

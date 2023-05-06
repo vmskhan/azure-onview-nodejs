@@ -114,3 +114,18 @@ export const endSubmission=(data)=>{
 //   console.log(data.resData[0]);
 //   setLoading(false);
 // })
+
+export const getUserSubmission=(tid,uid)=>{
+  return async(dispatch)=>{
+      const fetchHandler=async()=>{
+        proxyAxios.get('/api/users/submission/'+tid+'/'+uid)
+        .then((res) => res.data)
+        .then((data)=> {
+          console.log(data);
+           dispatch(userActions.updateSubmission(data.submissions[0]));
+           
+        })
+      }
+      await fetchHandler();
+  }
+}

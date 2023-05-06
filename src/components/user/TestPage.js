@@ -18,7 +18,7 @@ const TestPage =() =>{
   const offcanvasStyle={width: '250px', marginTop : '104px', overflow: 'hidden'};  
   const offcanvasBodyStyle={marginLeft: '25px', overflow: 'hidden'};
   const offcanvasBodyChildDivStyle={minHeight: '250px', maxHeight: '250px' , width: '100%', overflow: 'scroll', overflowX : 'hidden' ,paddingRight: '17px', boxSizing: 'content-box' }
-  const user=JSON.parse(localStorage.getItem('userInfo'));
+  const user=useSelector((state)=>state.auth.userInfo);
   const [answer,setAnswer]=useState("");
   const navigate=useNavigate();
 const getdynamo=()=>{

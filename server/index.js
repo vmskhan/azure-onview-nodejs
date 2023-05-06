@@ -4,7 +4,7 @@ const express=require("express");
 const userRoutes=require('./routes/userRoutes');
 const adminRoutes= require('./routes/adminRoutes');
 const { notFound, errorHandler } = require('./middlewares/errorMiddleware');
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 5001;
 const dotenv=require("dotenv");
 const connectDB=require("./config/db");
 const morgan=require("morgan");
@@ -15,7 +15,7 @@ dotenv.config();
 connectDB();
 //require('./config/mongodbConnect').connect();
 app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "http://localhost:3000"); // update to match the domain you will make the request from
+    res.header("Access-Control-Allow-Origin", "http://localhost:5000"); // update to match the domain you will make the request from
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     res.header("Access-Control-Allow-Methods","*");
     next();

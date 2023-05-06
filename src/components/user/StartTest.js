@@ -7,7 +7,7 @@ import { createNewEmptySubmission, getUserTests } from "../../store/User-actions
 const StartTest = () => {
     const dispatch=useDispatch();
     const testId=localStorage.getItem('currentTest');
-    const user=JSON.parse(localStorage.getItem('userInfo'));
+    const user=useSelector((state)=>state.auth.userInfo);
     const test=useSelector(state=>state.user.tests.filter((test)=>test._id===testId)[0]);
     const [loading,setLoading]=useState(false);
 

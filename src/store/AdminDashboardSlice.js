@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const AdminDashboardSlice=createSlice({
     name:'adminDashboard',
-    initialState:{usersList:[],tests:[],questions:[],submissions:[]},
+    initialState:{usersList:[],tests:[],questions:[],submissions:[],searchValue:''},
     reducers:{
         updateUsers(state,action){
             state.usersList=action.payload;
@@ -15,6 +15,9 @@ const AdminDashboardSlice=createSlice({
         },
         updateSubmissions(state,action){
             state.submissions=action.payload;
+        },
+        updateSearchValue(state,action){
+            state.searchValue=action.payload;
         },
     },
 });

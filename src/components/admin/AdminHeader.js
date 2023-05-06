@@ -1,11 +1,15 @@
 import "./admin.css";
 import { Link, useNavigate } from "react-router-dom";
 import { authActions } from "../../store/AuthSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { adminDashboardActions } from "../../store/AdminDashboardSlice";
 const AdminHeader = () => {
-
+  const searchValue=useSelector((state)=>state.adminDashboard.searchValue);
   const dispatch=useDispatch();
   const navigate=useNavigate();
+  const searchValueHandler=(value)=>{
+    dispatch(adminDashboardActions.updateSearchValue(value));
+  }
   return(
     <nav className="navbar navbar-expand-lg navbar-dark text-l bg-none  px-5">
         <div className="container-fluid">
@@ -20,10 +24,10 @@ const AdminHeader = () => {
           </button>
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <span className="px-4"></span>
-            <form className="d-flex px-5 w-100">
-              <input className="form-control me-2" type="search" placeholder="Search Interviews" aria-label="Search"/>
+            <div className="d-flex px-5 w-100">
+              <input className="form-control me-2" type="search" placeholder="Search Interviews" aria-label="Search" value={searchValue} onChange={(e)=>searchValueHandler(e.target.value)}/>
               <button className="btn bg-primary text-white"  type="submit"><i className="bi bi-search"></i></button>
-            </form>
+            </div>
             <div className="me-auto"></div>
             <ul className="navbar-nav mb-2 mb-lg-0 px-4">
               <li className="nav-item">
@@ -40,6 +44,7 @@ const AdminHeader = () => {
                 <button className="btn btn-outline-light btn-sm" onClick={() => {
                   dispatch(authActions.logout())
                   localStorage.removeItem("userInfo");
+                  
                   navigate('/');
                   }
                   }>Logout</button>

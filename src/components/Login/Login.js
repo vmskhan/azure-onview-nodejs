@@ -25,6 +25,7 @@ const Login=() => {
         if(userInfo)
             dispatch(authActions.login());
         if(isLoggedIn){
+            // dispatch(authActions.addUserInfo(userInfo));
             if(userInfo.isAdmin )
             {
                 console.log('Admin path');
@@ -58,6 +59,7 @@ const Login=() => {
                 console.log(data);
                 localStorage.setItem("userInfo",JSON.stringify(data));
                 dispatch(authActions.login());
+                dispatch(authActions.addUserInfo(data));
                 setLoading(false);
                 setError("");
             })

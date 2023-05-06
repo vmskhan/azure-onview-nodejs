@@ -3,10 +3,12 @@ import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { adminDashboardActions } from "../../store/AdminDashboardSlice";
 import { deleteTestWithTid } from "../../store/AdminDashboardActions";
+import { useSelector } from "react-redux";
 
 const TestComp= (props) => {
     
   const dispatch=useDispatch();
+  const user=useSelector((state)=>state.auth.userInfo);
   useEffect(()=>{
         console.log(props.testobj);
     },[])
@@ -14,7 +16,6 @@ const TestComp= (props) => {
       localStorage.setItem('currentTest',props.testobj._id);
   }    
   const deleteTestHandler=()=>{
-    const user=JSON.parse(localStorage.getItem('userInfo'));
     dispatch(deleteTestWithTid(user._id,props.testobj._id));
   }
 

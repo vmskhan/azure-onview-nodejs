@@ -24,9 +24,9 @@ const UserTestResultComp=(props)=>{
                   <div className="mt-1">
                     <small>Total Marks : {props.testobj.totalMarks}</small>
                   </div>
-                  <div className="mt-1">
+                  {/* <div className="mt-1">
                     <small>Marks Scored : <strong>{participation.score}</strong></small>
-                  </div>
+                  </div> */}
                 </div>
                 <div className="mt-1">
                     <small>Date : {props.testobj.date}</small>

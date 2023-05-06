@@ -36,7 +36,10 @@ const App = () => {
       let userInfo=localStorage.getItem("userInfo");
        console.log(userInfo);
       if(userInfo)
+      {
           dispatch(authActions.login());
+          dispatch(authActions.addUserInfo(JSON.parse(userInfo)))
+      }
     },[])
   return( 
   <BrowserRouter>

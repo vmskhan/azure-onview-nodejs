@@ -8,7 +8,7 @@ const AdminEvaluateAnswer = () => {
   const testId=localStorage.getItem("currentTest");
   const submissionId=localStorage.getItem("currentSubmission");
   const submission=useSelector(state=>state.adminDashboard.submissions.filter((sub)=>sub._id===submissionId)[0]);
-  const user=JSON.parse(localStorage.getItem("userInfo"));
+  const user=useSelector((state)=>state.auth.userInfo);
   const test=useSelector(state=>state.adminDashboard.tests.filter((test)=>test._id===testId)[0])
   const participant=useSelector(state=>state.adminDashboard.usersList.filter((us)=>us._id===submission.uid)[0]);
   const questions=useSelector(state=>state.adminDashboard.questions);

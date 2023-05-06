@@ -9,8 +9,8 @@ const AdminHistory = () => {
   const [uid,setUid]=useState("");
   const [loading,setLoading]=useState(false);
 
-
-  const user=JSON.parse(localStorage.getItem('userInfo'));
+  const searchValue=useSelector((state)=>state.adminDashboard.searchValue);
+  const user=useSelector((state)=>state.auth.userInfo);
 
 useEffect(()=>{
   if(tests.length===0)
@@ -44,13 +44,13 @@ const fetchTests=()=>{
         </div>
 
         <div className="row px-5">
-          {tests.length === 0  &&
-            <div className="text-center text-secondary mt-5">
-              You don't have any Interviews yet.
+          {tests.filter((test)=>test.state!=='pending').length === 0  &&
+            <div className="text-center fs-6 text-light mt-5">
+              You don't have any Interviews yet :-)
             </div>
           }
           {tests.map((test,index)=>{
-            if(test.state!=='pending')
+            if(test.state!=='pending' && (test.tname.includes(searchValue) || searchValue==='' ))
             return <TestComp testobj={test} index={index} titleUrl={'/admin/adminResult'}/>
           })
           }

@@ -8,7 +8,7 @@ import { getUsers } from "../../store/AdminDashboardActions";
 const AdminEvaluationList = () => {
   const testId=localStorage.getItem("currentTest");
   const submissions=useSelector(state=>state.adminDashboard.submissions);
-  const user=JSON.parse(localStorage.getItem("userInfo"));
+  const user=useSelector((state)=>state.auth.userInfo);
   const test=useSelector(state=>state.adminDashboard.tests.filter((test)=>test._id===testId)[0])
   const usersList=useSelector(state=>state.adminDashboard.usersList);
   

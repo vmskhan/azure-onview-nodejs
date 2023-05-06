@@ -1,11 +1,15 @@
 import "./user.css";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../../store/AuthSlice";
+import { userActions } from "../../store/UserSlice";
 const UserHeader = () => {
-  
+  const searchValue=useSelector((state)=>state.user.searchValue);
   const dispatch=useDispatch();
 const navigate=useNavigate();
+const searchValueHandler=(value)=>{
+  dispatch(userActions.updateSearchValue(value));
+}
   return(
       
     <nav className="navbar navbar-expand-lg navbar-dark text-l px-5">
@@ -21,10 +25,10 @@ const navigate=useNavigate();
           </button>
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <span className="px-4"></span>
-            <form className="d-flex px-5 w-100">
-              <input className="form-control me-2" type="search" placeholder="Search Interviews" aria-label="Search"/>
-              <button className="btn text-white btn-sm"  type="submit"><i className="bi bi-search"></i></button>
-            </form>
+            <div className="d-flex px-5 w-100">
+              <input className="form-control me-2" type="search" placeholder="Search Interviews" aria-label="Search" value={searchValue} onChange={(e)=>searchValueHandler(e.target.value)}/>
+              <button className="btn btn-outline-light border-0 btn-sm"  type="submit"><i className="bi bi-search"></i></button>
+            </div>
             <div className="me-auto"></div>
             <ul className="navbar-nav mb-2 mb-lg-0 px-4">
               <li className="nav-item">

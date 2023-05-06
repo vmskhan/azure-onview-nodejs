@@ -31,7 +31,7 @@ const [loading,setLoading]=useState(false);
 const [mode,setMode]=useState("new");
 const [pid,setPid]=useState(undefined);
 const [currentQuestion,setCurrentQuestion]=useState(null);
-const user=JSON.parse(localStorage.getItem('userInfo'));
+const user=useSelector((state)=>state.auth.userInfo);
 const questionRef=useRef(null);
 // const [question,setQuestion]=useState({});
 const [marks,setMarks]=useState(0);
@@ -194,14 +194,14 @@ const ChangeParticipantHandler=()=>
                   </div>
                     {test.state === 'edit' &&
                       <div>                         
-                          <button className="btn bg-r text-white btn-sm" onClick={(e)=>changeTestState('start')}><i className="bi bi-play-circle"></i> Start Interview</button>
+                          <button className="btn btn-outline-danger border-light text-white btn-sm" onClick={(e)=>changeTestState('start')}><i className="bi bi-play-circle"></i> Start Interview</button>
                       </div>
                     }
                     {test.state === 'start' &&
                       <div>
-                          <button className="btn bg-r text-white  btn-sm" onClick={(e)=>changeTestState('end')}><i className="bi bi-box-arrow-left"></i> End Interview</button>
-                        <Link to="/admin/startMeet">
-                          <button className="btn bg-info text-white  btn-sm"><i className="far fa-handshake"></i> Start Zoom Meeting</button>
+                          <button className="btn btn-outline-danger border-light text-white  btn-sm" onClick={(e)=>changeTestState('end')}><i className="bi bi-box-arrow-left"></i> End Interview</button>
+                        <Link to="/admin/adminMeet">
+                          <button className="btn btn-outline-info border-light text-white  btn-sm"><i className="far fa-handshake"></i> Start Zoom Meeting</button>
                         </Link>
                       </div>  
                     }  
@@ -214,7 +214,7 @@ const ChangeParticipantHandler=()=>
                 <div className="d-flex justify-content-between">
                     <div className="h5 text-light">Questions</div>
                     {test.state === 'edit' &&
-                      <div><button className="btn text-white bg-success btn-sm" data-bs-toggle="modal" data-bs-target="#QuestionModal" aria-controls="offcanvasRight" onClick={newQuestionHandler}> <i className="bi bi-plus-circle"></i> Add Question</button></div>
+                      <div><button className="btn text-white btn-outline-success border-light btn-sm" data-bs-toggle="modal" data-bs-target="#QuestionModal" aria-controls="offcanvasRight" onClick={newQuestionHandler}> <i className="bi bi-plus-circle"></i> Add Question</button></div>
                     }
                 </div>
             </div>
